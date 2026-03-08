@@ -1,0 +1,1856 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<!--
+   ______                            __
+  / ____/___  ____ ___  ____  __  __/ /____  _____
+ / /   / __ \/ __ `__ \/ __ \/ / / / __/ _ \/ ___/
+/ /___/ /_/ / / / / / / /_/ / /_/ / /_/  __/ /
+\____/\____/_/ /_/ /_/ .___/\__,_/\__/\___/_/
+                    /_/
+        Created with Perplexity Computer
+        https://www.perplexity.ai/computer
+-->
+<meta name="generator" content="Perplexity Computer">
+<meta name="author" content="Perplexity Computer">
+<meta property="og:see_also" content="https://www.perplexity.ai/computer">
+<link rel="author" href="https://www.perplexity.ai/computer">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Squared Circle Tracker — The Sweet Science</title>
+<!-- PWA & Home Screen -->
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Squared Circle">
+<meta name="theme-color" content="#0c1220">
+<meta name="description" content="Track upcoming boxing events, fighter profiles, rankings, and results. The Sweet Science at your fingertips.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
+    "lucide-react": "https://esm.sh/lucide-react@0.462.0?external=react"
+  }
+}
+</script>
+<style type="text/tailwindcss">
+@theme {
+  --color-bg: #0f172a;
+  --color-surface: #1e293b;
+  --color-surface-2: #273548;
+  --color-surface-3: #334155;
+  --color-border: #334155;
+  --color-border-2: #475569;
+  --color-text: #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-text-faint: #64748b;
+  --color-red: #dc2626;
+  --color-red-hover: #b91c1c;
+  --color-red-glow: rgba(220, 38, 38, 0.15);
+  --color-gold: #eab308;
+  --color-gold-bg: rgba(234, 179, 8, 0.12);
+  --color-green: #22c55e;
+  --color-green-bg: rgba(34, 197, 94, 0.12);
+  --color-blue: #3b82f6;
+  --color-blue-bg: rgba(59, 130, 246, 0.12);
+  --color-purple: #a855f7;
+  --font-display: 'Bebas Neue', 'Impact', sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+</style>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: var(--font-body); background: var(--color-bg); color: var(--color-text); }
+h1, h2, h3, h4 { text-wrap: balance; }
+.font-display { font-family: var(--font-display); letter-spacing: 0.04em; }
+.tabular-nums { font-variant-numeric: tabular-nums lining-nums; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #475569; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #64748b; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.animate-in { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+@media (min-width: 1024px) {
+  .main-area { margin-left: 256px; }
+}
+.ring-pattern {
+  background-image: 
+    linear-gradient(rgba(220, 38, 38, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(220, 38, 38, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="module">
+import React, { useState, useEffect, useCallback, useMemo, useRef, createElement as h, Fragment } from 'react';
+import { createRoot } from 'react-dom/client';
+import { jsx, jsxs } from 'react/jsx-runtime';
+import { Search, Calendar, Trophy, BarChart3, Bell, FileText, ChevronLeft, ChevronRight, MapPin, Clock, Tv, Users, Globe, Award, X, Menu, Home, Star, Swords, Filter, ExternalLink, Download, Check, Trash2, Eye, ChevronDown, ChevronUp, Zap, TrendingUp, Shield, AlertCircle } from 'lucide-react';
+
+// ═══════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════
+
+const RECENT_RESULTS = [
+  {
+    id: "pierce-parra-2026",
+    eventName: "Pierce vs Parra II",
+    date: "2026-02-28",
+    venue: "Turning Stone Resort & Casino",
+    city: "Verona, New York",
+    country: "USA",
+    streaming: ["Amazon Prime"],
+    promoter: "Manny Pacquiao Promotions",
+    status: "completed",
+    fights: [
+      {
+        fighter1: { name: "Lorenzo Parra", record: "24-1-1", kos: 18, height: '5\'6"', reach: '66"', stance: "Orthodox", country: "Venezuela", age: 31 },
+        fighter2: { name: "Elijah Pierce", record: "21-3", kos: 17, height: '5\'9"', reach: '69"', stance: "Southpaw", country: "USA", age: 29 },
+        weightClass: "Featherweight", rounds: 10, isMainEvent: true, isTitleFight: true,
+        titles: ["WBO International Featherweight Title"],
+        result: { winner: "Lorenzo Parra", method: "KO", round: 2, time: "1:44" }
+      },
+      {
+        fighter1: { name: "Bryce Mills", record: "21-1", kos: 7 },
+        fighter2: { name: "Tobias Green", record: "12-4-1", kos: 4 },
+        weightClass: "Super Lightweight", rounds: 10, isCoMainEvent: true, isTitleFight: true,
+        titles: ["WBC U.S. Super Lightweight Title"],
+        result: { winner: "Bryce Mills", method: "TKO", round: 4, time: "1:23" }
+      },
+      {
+        fighter1: { name: "Curmel Moton", record: "9-0", kos: 7 },
+        fighter2: { name: "Wilfredo Flores", record: "loss" },
+        weightClass: "Welterweight", rounds: 10,
+        result: { winner: "Curmel Moton", method: "TKO", round: 2, time: "5:00" }
+      },
+      {
+        fighter1: { name: "Shera Mae Patricio", record: "8-0" },
+        fighter2: { name: "Maribel Ramirez", record: "loss" },
+        weightClass: "Women's Flyweight", rounds: 6,
+        result: { winner: "Shera Mae Patricio", method: "UD", round: 6 }
+      }
+    ]
+  },
+  {
+    id: "navarrete-nunez-2026",
+    eventName: "Navarrete vs Nunez",
+    date: "2026-02-28",
+    venue: "Desert Diamond Arena",
+    city: "Glendale, Arizona",
+    country: "USA",
+    streaming: ["DAZN"],
+    promoter: "Matchroom Boxing",
+    status: "completed",
+    fights: [
+      {
+        fighter1: { name: "Emanuel Navarrete", record: "winner", country: "Mexico" },
+        fighter2: { name: "Eduardo 'Sugar' Nunez", record: "loss", country: "Mexico" },
+        weightClass: "Super Featherweight", rounds: 12, isMainEvent: true, isTitleFight: true,
+        titles: ["WBO Super Featherweight Title", "IBF Featherweight Title"],
+        result: { winner: "Emanuel Navarrete", method: "TKO", round: 11, time: "0:01", note: "Doctor stoppage" }
+      }
+    ]
+  }
+];
+
+const UPCOMING_EVENTS = [
+  {
+    id: "opetaia-glanton-2026",
+    eventName: "Zuffa Boxing 04: Opetaia vs Glanton",
+    date: "2026-03-08",
+    time: "9:00 PM ET / 6:00 PM PT",
+    mainCardTime: "9:00 PM ET / 6:00 PM PT",
+    venue: "Meta APEX",
+    city: "Las Vegas, Nevada",
+    country: "USA",
+    streaming: ["Paramount+"],
+    promoter: "Zuffa Boxing",
+    fights: [
+      {
+        fighter1: { name: "Jai Opetaia", nickname: "The Dragon", record: "29-0", kos: 23, height: '6\'2"', reach: '76"', stance: "Southpaw", country: "Australia", age: 30 },
+        fighter2: { name: "Brandon Glanton", record: "21-3", kos: 18, height: '5\'10"', reach: '78"', stance: "Orthodox", country: "USA", age: 34 },
+        weightClass: "Cruiserweight", rounds: 12, isMainEvent: true, isTitleFight: true,
+        titles: ["IBF Cruiserweight Title", "The Ring Cruiserweight Title", "Zuffa Boxing Cruiserweight Title"],
+        estimatedRingWalk: "10:30 PM ET / 7:30 PM PT"
+      },
+      {
+        fighter1: { name: "Vlad Panin", nickname: "Super Bad", record: "23-2", kos: 15, height: '6\'0"', reach: '75"', stance: "Orthodox", country: "Belarus/USA", age: 29 },
+        fighter2: { name: "Shinard Bunch", record: "22-3-1", kos: 18, stance: "Orthodox", country: "USA", age: 28 },
+        weightClass: "Welterweight", rounds: 10, isCoMainEvent: true
+      },
+      {
+        fighter1: { name: "Adan Palma", record: "14-0", kos: 9, country: "USA", age: 24 },
+        fighter2: { name: "Pablo Rubio Jr.", record: "14-0", kos: 5, country: "USA", age: 29 },
+        weightClass: "Featherweight", rounds: 8
+      },
+      {
+        fighter1: { name: "Joshua Juarez", record: "14-0", kos: 9, country: "USA" },
+        fighter2: { name: "Jardae Anderson", record: "11-1", kos: 9, country: "USA" },
+        weightClass: "Heavyweight", rounds: 8
+      },
+      {
+        fighter1: { name: "Emiliano Alvarado", record: "10-0", kos: 6, country: "USA", age: 18 },
+        fighter2: { name: "Erick Rosado", record: "16-4", kos: 11, country: "Dominican Republic" },
+        weightClass: "Featherweight", rounds: 6
+      },
+      {
+        fighter1: { name: "Brady Ochoa", record: "9-0", kos: 2, country: "USA" },
+        fighter2: { name: "Adrian Serrano", record: "6-0-1", kos: 3, country: "USA" },
+        weightClass: "Lightweight", rounds: 6
+      }
+    ]
+  },
+  {
+    id: "dickens-cacace-2026",
+    eventName: "Dickens vs Cacace: St Patrick's Day Spectacular",
+    date: "2026-03-14",
+    time: "2:00 PM ET / 11:00 AM PT",
+    mainCardTime: "2:00 PM ET / 11:00 AM PT",
+    venue: "3Arena",
+    city: "Dublin",
+    country: "Ireland",
+    streaming: ["DAZN"],
+    promoter: "Queensberry Promotions",
+    fights: [
+      {
+        fighter1: { name: "Jazza Dickens", record: "36-5", kos: 15, height: '5\'5"', reach: '65"', stance: "Orthodox", country: "England", age: 34 },
+        fighter2: { name: "Anthony Cacace", nickname: "The Apache", record: "24-1", kos: 9, height: '5\'10"', reach: '73"', stance: "Orthodox", country: "Northern Ireland", age: 37 },
+        weightClass: "Super Featherweight", rounds: 12, isMainEvent: true, isTitleFight: true,
+        titles: ["WBA Super Featherweight Title"]
+      },
+      {
+        fighter1: { name: "Pierce O'Leary", nickname: "Big Bang", record: "undefeated", country: "Ireland" },
+        fighter2: { name: "Mark Chamberlain", record: "tbd", country: "England" },
+        weightClass: "Super Lightweight", rounds: 12, isCoMainEvent: true, isTitleFight: true,
+        titles: ["Vacant IBO Super Lightweight Title"]
+      }
+    ]
+  },
+  {
+    id: "fundora-thurman-2026",
+    eventName: "PBC PPV: Fundora vs Thurman",
+    date: "2026-03-28",
+    time: "8:00 PM ET / 5:00 PM PT",
+    mainCardTime: "8:00 PM ET / 5:00 PM PT",
+    venue: "MGM Grand Garden Arena",
+    city: "Las Vegas, Nevada",
+    country: "USA",
+    streaming: ["Prime Video PPV"],
+    ppvPrice: "$74.99",
+    promoter: "PBC / TGB Promotions",
+    fights: [
+      {
+        fighter1: { name: "Sebastian Fundora", nickname: "The Towering Inferno", record: "champion", height: '6\'6"', reach: '80"', stance: "Southpaw", country: "USA", age: 27 },
+        fighter2: { name: "Keith Thurman", nickname: "One Time", record: "former champion", stance: "Orthodox", country: "USA", age: 37 },
+        weightClass: "Super Welterweight", rounds: 12, isMainEvent: true, isTitleFight: true,
+        titles: ["WBC Super Welterweight Title"]
+      },
+      {
+        fighter1: { name: "Frank Sanchez", nickname: "The Cuban Flash", record: "heavyweight contender", country: "Cuba" },
+        fighter2: { name: "Richard Torrez Jr.", record: "unbeaten", country: "USA" },
+        weightClass: "Heavyweight", rounds: 12, isCoMainEvent: true, isTitleFight: true,
+        titles: ["IBF Heavyweight Title Eliminator"]
+      },
+      {
+        fighter1: { name: "Yoenli Hernandez", record: "undefeated", country: "Cuba" },
+        fighter2: { name: "Terrell Gausha", record: "veteran", country: "USA" },
+        weightClass: "Middleweight", rounds: 10
+      },
+      {
+        fighter1: { name: "Elijah Garcia", record: "17-1", kos: 13, country: "USA", age: 22, note: "From Phoenix, Arizona" },
+        fighter2: { name: "Kevin Newman II", record: "veteran", country: "USA" },
+        weightClass: "Super Middleweight", rounds: 10
+      }
+    ]
+  },
+  {
+    id: "itauma-franklin-2026",
+    eventName: "DAZN: Itauma vs Franklin",
+    date: "2026-03-28",
+    time: "2:00 PM ET / 11:00 AM PT",
+    mainCardTime: "2:00 PM ET / 11:00 AM PT",
+    venue: "AO Arena",
+    city: "Manchester",
+    country: "UK",
+    streaming: ["DAZN"],
+    promoter: "Matchroom Boxing",
+    fights: [
+      {
+        fighter1: { name: "Moses Itauma", record: "prospect", country: "England", note: "Teenage heavyweight sensation" },
+        fighter2: { name: "Jermaine Franklin Jr.", record: "veteran", country: "USA" },
+        weightClass: "Heavyweight", rounds: 10, isMainEvent: true
+      },
+      {
+        fighter1: { name: "Willy Hutchinson", record: "tbd", country: "Scotland" },
+        fighter2: { name: "Ezra Taylor", record: "tbd", country: "tbd" },
+        weightClass: "Light Heavyweight", rounds: 10, isCoMainEvent: true
+      },
+      {
+        fighter1: { name: "Liam Davies", record: "tbd", country: "England" },
+        fighter2: { name: "Zak Miller", record: "tbd", country: "England" },
+        weightClass: "Featherweight", rounds: 10
+      }
+    ]
+  },
+  {
+    id: "wilder-chisora-2026",
+    eventName: "DAZN PPV: Wilder vs Chisora - 100",
+    date: "2026-04-04",
+    time: "2:00 PM ET / 11:00 AM PT",
+    mainCardTime: "~5:00 PM ET / 2:00 PM PT (Ringwalk)",
+    venue: "The O2 Arena",
+    city: "London",
+    country: "UK",
+    streaming: ["DAZN PPV"],
+    promoter: "Wasserman Boxing / Queensberry Promotions",
+    fights: [
+      {
+        fighter1: { name: "Deontay Wilder", nickname: "The Bronze Bomber", record: "44-4-1", kos: 43, height: '6\'7"', reach: '83"', stance: "Orthodox", country: "USA", age: 40 },
+        fighter2: { name: "Derek Chisora", nickname: "War", record: "36-13", kos: 23, height: '6\'1"', reach: '74"', stance: "Orthodox", country: "UK/Zimbabwe", age: 42 },
+        weightClass: "Heavyweight", rounds: 10, isMainEvent: true,
+        estimatedRingWalk: "~5:00 PM ET / 2:00 PM PT"
+      },
+      {
+        fighter1: { name: "Denzel Bentley", record: "tbd", country: "England" },
+        fighter2: { name: "Endry Saavedra", record: "tbd", country: "Venezuela" },
+        weightClass: "Middleweight", rounds: 12, isCoMainEvent: true, isTitleFight: true,
+        titles: ["WBO Middleweight Title Eliminator"]
+      },
+      {
+        fighter1: { name: "Viddal Riley", record: "tbd", country: "England" },
+        fighter2: { name: "Mateusz Masternak", record: "tbd", country: "Poland" },
+        weightClass: "Cruiserweight", rounds: 12, isTitleFight: true,
+        titles: ["European Cruiserweight Title"]
+      }
+    ]
+  },
+  {
+    id: "dubois-harper-2026",
+    eventName: "MVP: Dubois vs Harper",
+    date: "2026-04-05",
+    time: "2:00 PM ET / 11:00 AM PT",
+    mainCardTime: "2:00 PM ET / 11:00 AM PT",
+    venue: "Olympia London",
+    city: "London",
+    country: "UK",
+    streaming: ["Sky Sports"],
+    promoter: "Most Valuable Promotions (MVP)",
+    note: "ALL-FEMALE CARD",
+    fights: [
+      {
+        fighter1: { name: "Caroline Dubois", record: "tbd", stance: "Southpaw", country: "England" },
+        fighter2: { name: "Terri Harper", record: "16-2-2", kos: 6, country: "England" },
+        weightClass: "Women's Lightweight", rounds: 10, isMainEvent: true, isTitleFight: true,
+        titles: ["WBC Lightweight Title", "WBO Lightweight Title"],
+        note: "Unification bout"
+      },
+      {
+        fighter1: { name: "Ellie Scotney", record: "tbd", country: "England" },
+        fighter2: { name: "Mayelli Flores", record: "tbd", country: "Mexico" },
+        weightClass: "Women's Super Bantamweight", rounds: 10, isCoMainEvent: true, isTitleFight: true,
+        titles: ["Undisputed Super Bantamweight Title"]
+      },
+      {
+        fighter1: { name: "Chantelle Cameron", record: "tbd", country: "England" },
+        fighter2: { name: "Michaela Koskova", record: "tbd", country: "Czech Republic" },
+        weightClass: "Women's Super Lightweight", rounds: 10, isTitleFight: true
+      },
+      {
+        fighter1: { name: "Emma Dolan", record: "tbd", country: "Ireland" },
+        fighter2: { name: "Irma Garcia", record: "tbd", country: "Mexico" },
+        weightClass: "Women's Flyweight", rounds: 10, isTitleFight: true
+      }
+    ]
+  },
+  {
+    id: "benavidez-ramirez-2026",
+    eventName: "PBC PPV: Benavidez vs Ramirez",
+    date: "2026-05-02",
+    time: "8:00 PM ET / 5:00 PM PT",
+    mainCardTime: "8:00 PM ET / 5:00 PM PT",
+    venue: "T-Mobile Arena",
+    city: "Las Vegas, Nevada",
+    country: "USA",
+    streaming: ["Prime Video PPV"],
+    promoter: "PBC / TGB Promotions",
+    fights: [
+      {
+        fighter1: { name: "David Benavidez", nickname: "El Monstro", record: "31-0", kos: 25, height: '6\'2"', reach: '77"', stance: "Orthodox", country: "USA/Mexico", age: 29 },
+        fighter2: { name: "Gilberto Ramirez", nickname: "Zurdo", record: "48-1", kos: 32, height: '6\'3"', reach: '79"', stance: "Southpaw", country: "Mexico", age: 34 },
+        weightClass: "Cruiserweight", rounds: 12, isMainEvent: true, isTitleFight: true,
+        titles: ["WBO Cruiserweight Title", "WBA Cruiserweight Title"]
+      }
+    ]
+  },
+  {
+    id: "usyk-verhoeven-2026",
+    eventName: "Usyk vs Verhoeven",
+    date: "2026-05-23",
+    time: "TBD",
+    mainCardTime: "TBD",
+    venue: "Pyramids of Giza",
+    city: "Giza",
+    country: "Egypt",
+    streaming: ["DAZN"],
+    promoter: "Matchroom Boxing",
+    fights: [
+      {
+        fighter1: { name: "Oleksandr Usyk", record: "24-0", kos: 15, height: '6\'3"', reach: '78"', stance: "Southpaw", country: "Ukraine", age: 39 },
+        fighter2: { name: "Rico Verhoeven", record: "kickboxing champion", country: "Netherlands" },
+        weightClass: "Heavyweight", rounds: 12, isMainEvent: true, isTitleFight: true,
+        titles: ["WBC Heavyweight Title"]
+      }
+    ]
+  }
+];
+
+const P4P_RANKINGS = [
+  { rank: 1, name: "Oleksandr Usyk", record: "24-0", kos: 15, division: "Heavyweight", country: "Ukraine", age: 39, titles: ["WBC Heavyweight Champion"] },
+  { rank: 2, name: "Naoya Inoue", record: "32-0", kos: 27, division: "Junior Featherweight", country: "Japan", age: 33, titles: ["Undisputed Junior Featherweight Champion"] },
+  { rank: 3, name: "Jesse Rodriguez", nickname: "Bam", record: "23-0", kos: 16, division: "Junior Bantamweight", country: "USA", age: 25, titles: ["Unified Junior Bantamweight Champion"] },
+  { rank: 4, name: "Shakur Stevenson", record: "25-0", kos: 11, division: "Junior Welterweight", country: "USA", age: 28, titles: ["Junior Welterweight Champion"] },
+  { rank: 5, name: "David Benavidez", nickname: "El Monstro", record: "31-0", kos: 25, division: "Light Heavyweight", country: "USA", age: 29, titles: ["Light Heavyweight Champion"] },
+  { rank: 6, name: "Junto Nakatani", record: "32-0", kos: 24, division: "Bantamweight", country: "Japan", age: 27, titles: ["Unified Bantamweight Champion"] },
+  { rank: 7, name: "Devin Haney", record: "33-0", kos: 15, division: "Welterweight", country: "USA", age: 27, titles: ["WBO Welterweight Champion"] },
+  { rank: 8, name: "Jaron Ennis", nickname: "Boots", record: "35-0", kos: 31, division: "Junior Middleweight", country: "USA", age: 28, titles: ["Interim Junior Middleweight Champion"] },
+  { rank: 9, name: "Canelo Alvarez", record: "63-3-2", kos: 39, division: "Super Middleweight", country: "Mexico", age: 35, titles: [] },
+  { rank: 10, name: "Vergil Ortiz Jr.", record: "24-0", kos: 22, division: "Junior Middleweight", country: "USA", age: 27, titles: ["Interim Junior Middleweight Champion"] }
+];
+
+// Build fighter index from all event data
+const ALL_FIGHTERS = {};
+function indexFighter(f, eventId) {
+  if (!f.name || f.name === 'loss') return;
+  const key = f.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  if (!ALL_FIGHTERS[key]) {
+    ALL_FIGHTERS[key] = { ...f, id: key, events: [eventId], upcoming: [], results: [] };
+  } else {
+    if (!ALL_FIGHTERS[key].events.includes(eventId)) ALL_FIGHTERS[key].events.push(eventId);
+    // Merge in any new data
+    Object.keys(f).forEach(k => { if (f[k] && f[k] !== 'tbd' && f[k] !== 'loss') ALL_FIGHTERS[key][k] = f[k]; });
+  }
+}
+UPCOMING_EVENTS.forEach(ev => ev.fights.forEach(f => { indexFighter(f.fighter1, ev.id); indexFighter(f.fighter2, ev.id); }));
+RECENT_RESULTS.forEach(ev => ev.fights.forEach(f => { indexFighter(f.fighter1, ev.id); indexFighter(f.fighter2, ev.id); }));
+P4P_RANKINGS.forEach(r => {
+  const key = r.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  if (!ALL_FIGHTERS[key]) ALL_FIGHTERS[key] = { ...r, id: key, events: [], upcoming: [], results: [] };
+  else Object.keys(r).forEach(k => { if (r[k]) ALL_FIGHTERS[key][k] = r[k]; });
+});
+
+// ═══════════════════════════════════════════
+// UTILITY FUNCTIONS
+// ═══════════════════════════════════════════
+
+const TODAY = new Date(2026, 2, 7); // March 7, 2026
+
+function formatDate(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatDateShort(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function daysUntil(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  const diff = Math.ceil((d - TODAY) / (1000 * 60 * 60 * 24));
+  if (diff === 0) return "TODAY";
+  if (diff === 1) return "TOMORROW";
+  if (diff < 0) return `${Math.abs(diff)}d ago`;
+  if (diff <= 7) return `${diff} days`;
+  if (diff <= 30) return `${Math.ceil(diff / 7)} weeks`;
+  return `${Math.ceil(diff / 30)} months`;
+}
+
+function getCountdownClass(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  const diff = Math.ceil((d - TODAY) / (1000 * 60 * 60 * 24));
+  if (diff <= 1) return "bg-red-600 text-white";
+  if (diff <= 7) return "bg-amber-500/20 text-amber-400";
+  return "bg-slate-700 text-slate-300";
+}
+
+function getStreamingColor(platform) {
+  const p = platform.toLowerCase();
+  if (p.includes('dazn')) return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+  if (p.includes('paramount')) return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+  if (p.includes('prime') || p.includes('amazon')) return 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30';
+  if (p.includes('sky')) return 'bg-red-500/20 text-red-300 border-red-500/30';
+  if (p.includes('espn')) return 'bg-orange-500/20 text-orange-300 border-orange-500/30';
+  return 'bg-slate-500/20 text-slate-300 border-slate-500/30';
+}
+
+function getPromoterBadge(promoter) {
+  const p = promoter.toLowerCase();
+  if (p.includes('zuffa')) return { label: 'Zuffa', color: 'bg-purple-500/20 text-purple-300' };
+  if (p.includes('matchroom')) return { label: 'Matchroom', color: 'bg-cyan-500/20 text-cyan-300' };
+  if (p.includes('pbc') || p.includes('tgb')) return { label: 'PBC', color: 'bg-amber-500/20 text-amber-300' };
+  if (p.includes('queensberry')) return { label: 'Queensberry', color: 'bg-emerald-500/20 text-emerald-300' };
+  if (p.includes('mvp') || p.includes('most valuable')) return { label: 'MVP', color: 'bg-pink-500/20 text-pink-300' };
+  if (p.includes('wasserman')) return { label: 'Wasserman', color: 'bg-indigo-500/20 text-indigo-300' };
+  if (p.includes('pacquiao')) return { label: 'Pacquiao Promo', color: 'bg-yellow-500/20 text-yellow-300' };
+  return { label: promoter.split('/')[0].trim(), color: 'bg-slate-500/20 text-slate-300' };
+}
+
+function countryFlag(country) {
+  const flags = {
+    'usa': '🇺🇸', 'australia': '🇦🇺', 'uk': '🇬🇧', 'uk/zimbabwe': '🇬🇧', 'england': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+    'northern ireland': '🇬🇧', 'ireland': '🇮🇪', 'mexico': '🇲🇽', 'ukraine': '🇺🇦',
+    'japan': '🇯🇵', 'cuba': '🇨🇺', 'venezuela': '🇻🇪', 'netherlands': '🇳🇱',
+    'belarus/usa': '🇧🇾', 'usa/mexico': '🇺🇸', 'scotland': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+    'dominican republic': '🇩🇴', 'poland': '🇵🇱', 'czech republic': '🇨🇿', 'egypt': '🇪🇬'
+  };
+  if (!country) return '';
+  return flags[country.toLowerCase()] || '🌍';
+}
+
+function getFighterInitials(name) {
+  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+}
+
+function getWinRate(record) {
+  if (!record || record === 'tbd' || record === 'loss' || record === 'champion' || record === 'former champion' || record === 'prospect' || record === 'veteran' || record === 'undefeated' || record === 'unbeaten' || record === 'winner' || record.includes('kickboxing')) return null;
+  const parts = record.replace(/\s*\(.*\)/, '').split('-').map(Number);
+  if (parts.length < 2) return null;
+  const total = parts[0] + parts[1] + (parts[2] || 0);
+  if (total === 0) return null;
+  return Math.round((parts[0] / total) * 100);
+}
+
+function getKoRate(record, kos) {
+  if (!record || !kos) return null;
+  const wins = parseInt(record.split('-')[0]);
+  if (!wins) return null;
+  return Math.round((kos / wins) * 100);
+}
+
+// ═══════════════════════════════════════════
+// SVG LOGO
+// ═══════════════════════════════════════════
+
+function Logo({ size = 36 }) {
+  return h('svg', { width: size, height: size, viewBox: '0 0 48 48', fill: 'none', 'aria-label': 'Squared Circle Tracker logo' },
+    // Outer ring (the "squared circle")
+    h('rect', { x: 2, y: 2, width: 44, height: 44, rx: 8, stroke: '#dc2626', strokeWidth: 2.5, fill: 'none' }),
+    h('circle', { cx: 24, cy: 24, r: 16, stroke: '#dc2626', strokeWidth: 1.5, fill: 'none', opacity: 0.5 }),
+    // Ring ropes
+    h('line', { x1: 8, y1: 14, x2: 40, y2: 14, stroke: '#dc2626', strokeWidth: 1, opacity: 0.3 }),
+    h('line', { x1: 8, y1: 34, x2: 40, y2: 34, stroke: '#dc2626', strokeWidth: 1, opacity: 0.3 }),
+    // Boxing glove silhouette
+    h('path', { d: 'M20 18c-3 0-5 2-5 5v4c0 2 1.5 3.5 3.5 3.5h1c1 0 2-0.5 2.5-1.5l1-2h4l1 2c0.5 1 1.5 1.5 2.5 1.5h1c2 0 3.5-1.5 3.5-3.5v-4c0-3-2-5-5-5h-9z', fill: '#dc2626', opacity: 0.8 }),
+    // Star accent
+    h('circle', { cx: 24, cy: 8, r: 1.5, fill: '#eab308' })
+  );
+}
+
+function LogoSmall() {
+  return h('svg', { width: 28, height: 28, viewBox: '0 0 48 48', fill: 'none', 'aria-label': 'Squared Circle Tracker' },
+    h('rect', { x: 2, y: 2, width: 44, height: 44, rx: 8, stroke: '#dc2626', strokeWidth: 3, fill: 'none' }),
+    h('path', { d: 'M20 18c-3 0-5 2-5 5v4c0 2 1.5 3.5 3.5 3.5h1c1 0 2-0.5 2.5-1.5l1-2h4l1 2c0.5 1 1.5 1.5 2.5 1.5h1c2 0 3.5-1.5 3.5-3.5v-4c0-3-2-5-5-5h-9z', fill: '#dc2626' })
+  );
+}
+
+// ═══════════════════════════════════════════
+// COMPONENTS
+// ═══════════════════════════════════════════
+
+function StreamingBadge({ platform }) {
+  return h('span', { className: `inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium border ${getStreamingColor(platform)}` },
+    h(Tv, { size: 11 }),
+    platform
+  );
+}
+
+function TitleBadge({ title }) {
+  return h('span', { className: 'inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-amber-500/15 text-amber-300 border border-amber-500/25' },
+    h(Award, { size: 11 }),
+    title
+  );
+}
+
+function FighterAvatar({ name, size = 'md', country }) {
+  const sizes = { sm: 'w-8 h-8 text-xs', md: 'w-12 h-12 text-sm', lg: 'w-16 h-16 text-lg' };
+  return h('div', { className: `${sizes[size]} rounded-full bg-gradient-to-br from-slate-600 to-slate-700 flex items-center justify-center font-bold text-white border-2 border-slate-500/50 shrink-0` },
+    getFighterInitials(name)
+  );
+}
+
+function StatBox({ label, value, icon }) {
+  return h('div', { className: 'bg-surface rounded-lg p-4 border border-border flex items-center gap-3' },
+    h('div', { className: 'w-10 h-10 rounded-lg bg-red-glow flex items-center justify-center text-red' }, h(icon, { size: 18 })),
+    h('div', null,
+      h('div', { className: 'text-xl font-bold tabular-nums' }, value),
+      h('div', { className: 'text-xs text-text-muted' }, label)
+    )
+  );
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+
+const NAV_ITEMS = [
+  { id: '', label: 'Dashboard', icon: Home },
+  { id: 'rankings', label: 'Rankings', icon: Trophy },
+  { id: 'stats', label: 'Stats', icon: BarChart3 },
+  { id: 'calendar', label: 'Calendar', icon: Calendar },
+  { id: 'reminders', label: 'Reminders', icon: Bell },
+  { id: 'reports', label: 'Reports', icon: FileText },
+];
+
+function Sidebar({ currentPage, navigate, mobileOpen, setMobileOpen }) {
+  return h('aside', {
+    className: `fixed inset-y-0 left-0 z-40 bg-surface border-r border-border flex flex-col transition-transform duration-300 lg:translate-x-0 ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`,
+    style: { width: '256px' }
+  },
+    // Overlay for mobile
+    mobileOpen && h('div', { className: 'fixed inset-0 bg-black/60 lg:hidden z-[-1]', onClick: () => setMobileOpen(false) }),
+    // Logo area
+    h('div', { className: 'p-5 border-b border-border' },
+      h('button', { onClick: () => navigate(''), className: 'flex items-center gap-3 group' },
+        h(Logo, { size: 36 }),
+        h('div', null,
+          h('div', { className: 'font-display text-lg leading-none text-text tracking-wider' }, 'SQUARED CIRCLE'),
+          h('div', { className: 'text-[10px] text-text-faint tracking-[0.2em] uppercase mt-0.5' }, 'The Sweet Science')
+        )
+      )
+    ),
+    // Nav items
+    h('nav', { className: 'flex-1 py-3 px-3 space-y-1 overflow-y-auto' },
+      NAV_ITEMS.map(item =>
+        h('button', {
+          key: item.id,
+          onClick: () => { navigate(item.id); setMobileOpen(false); },
+          className: `w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+            currentPage === item.id
+              ? 'bg-red/10 text-red'
+              : 'text-text-muted hover:text-text hover:bg-surface-2'
+          }`
+        },
+          h(item.icon, { size: 18 }),
+          item.label
+        )
+      )
+    ),
+    // Footer
+    h('div', { className: 'p-4 border-t border-border' },
+      h('a', { href: 'https://www.perplexity.ai/computer', target: '_blank', rel: 'noopener noreferrer', className: 'text-[11px] text-text-faint hover:text-text-muted transition-colors' },
+        'Created with Perplexity Computer'
+      )
+    )
+  );
+}
+
+function MobileNav({ currentPage, navigate }) {
+  const items = [
+    { id: '', label: 'Home', icon: Home },
+    { id: 'rankings', label: 'Rankings', icon: Trophy },
+    { id: 'stats', label: 'Stats', icon: BarChart3 },
+    { id: 'calendar', label: 'Calendar', icon: Calendar },
+    { id: 'reminders', label: 'Alerts', icon: Bell },
+  ];
+  return h('nav', { className: 'fixed bottom-0 left-0 right-0 z-50 bg-surface/95 backdrop-blur-md border-t border-border lg:hidden safe-area-bottom' },
+    h('div', { className: 'flex justify-around py-2' },
+      items.map(item =>
+        h('button', {
+          key: item.id,
+          onClick: () => navigate(item.id),
+          className: `flex flex-col items-center gap-0.5 px-3 py-1 text-[10px] font-medium transition-colors ${
+            currentPage === item.id ? 'text-red' : 'text-text-faint'
+          }`
+        },
+          h(item.icon, { size: 20 }),
+          item.label
+        )
+      )
+    )
+  );
+}
+
+function TopBar({ setMobileOpen, navigate, searchQuery, setSearchQuery }) {
+  return h('header', { className: 'sticky top-0 z-30 bg-bg/80 backdrop-blur-md border-b border-border px-4 lg:px-6 py-3 flex items-center gap-4' },
+    h('button', { className: 'lg:hidden text-text-muted hover:text-text', onClick: () => setMobileOpen(true), 'aria-label': 'Open menu' },
+      h(Menu, { size: 22 })
+    ),
+    h('div', { className: 'lg:hidden flex items-center gap-2' },
+      h(LogoSmall),
+      h('span', { className: 'font-display text-sm tracking-wider' }, 'SCT')
+    ),
+    h('div', { className: 'flex-1 max-w-md relative' },
+      h(Search, { size: 16, className: 'absolute left-3 top-1/2 -translate-y-1/2 text-text-faint' }),
+      h('input', {
+        type: 'text',
+        placeholder: 'Search fighters, events, venues...',
+        value: searchQuery,
+        onChange: (e) => setSearchQuery(e.target.value),
+        className: 'w-full bg-surface border border-border rounded-lg pl-9 pr-4 py-2 text-sm text-text placeholder-text-faint focus:outline-none focus:border-red/50 focus:ring-1 focus:ring-red/30 transition-all'
+      })
+    ),
+    h('div', { className: 'hidden sm:flex items-center gap-2 text-xs text-text-faint' },
+      h(Clock, { size: 14 }),
+      'Sat, March 7, 2026'
+    )
+  );
+}
+
+// ═══════════════════════════════════════════
+// SEARCH RESULTS
+// ═══════════════════════════════════════════
+
+function SearchResults({ query, navigate }) {
+  if (!query || query.length < 2) return null;
+  const q = query.toLowerCase();
+  
+  const matchedEvents = [...UPCOMING_EVENTS, ...RECENT_RESULTS].filter(ev =>
+    ev.eventName.toLowerCase().includes(q) ||
+    ev.venue.toLowerCase().includes(q) ||
+    ev.city.toLowerCase().includes(q) ||
+    ev.fights.some(f => f.fighter1.name.toLowerCase().includes(q) || f.fighter2.name.toLowerCase().includes(q))
+  ).slice(0, 5);
+
+  const matchedFighters = Object.values(ALL_FIGHTERS).filter(f =>
+    f.name.toLowerCase().includes(q) || (f.nickname && f.nickname.toLowerCase().includes(q))
+  ).slice(0, 5);
+
+  if (matchedEvents.length === 0 && matchedFighters.length === 0) {
+    return h('div', { className: 'absolute top-full left-0 right-0 mt-1 bg-surface-2 border border-border rounded-lg p-4 shadow-xl z-50' },
+      h('p', { className: 'text-sm text-text-muted' }, 'No results found')
+    );
+  }
+
+  return h('div', { className: 'absolute top-full left-0 right-0 mt-1 bg-surface-2 border border-border rounded-lg shadow-xl z-50 max-h-80 overflow-y-auto' },
+    matchedFighters.length > 0 && h('div', { className: 'p-2' },
+      h('div', { className: 'text-[10px] font-semibold text-text-faint uppercase tracking-wider px-2 py-1' }, 'Fighters'),
+      matchedFighters.map(f =>
+        h('button', {
+          key: f.id,
+          onClick: () => navigate(`fighter/${f.id}`),
+          className: 'w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-surface-3 text-left transition-colors'
+        },
+          h(FighterAvatar, { name: f.name, size: 'sm' }),
+          h('div', null,
+            h('div', { className: 'text-sm font-semibold' }, f.name),
+            h('div', { className: 'text-xs text-text-muted' }, f.record || f.division || '')
+          )
+        )
+      )
+    ),
+    matchedEvents.length > 0 && h('div', { className: 'p-2 border-t border-border' },
+      h('div', { className: 'text-[10px] font-semibold text-text-faint uppercase tracking-wider px-2 py-1' }, 'Events'),
+      matchedEvents.map(ev =>
+        h('button', {
+          key: ev.id,
+          onClick: () => navigate(`event/${ev.id}`),
+          className: 'w-full flex items-center gap-3 px-3 py-2 rounded-md hover:bg-surface-3 text-left transition-colors'
+        },
+          h('div', { className: 'w-8 h-8 rounded bg-surface-3 flex items-center justify-center text-xs font-bold text-text-muted' }, formatDateShort(ev.date).split(' ')[1]),
+          h('div', null,
+            h('div', { className: 'text-sm font-semibold' }, ev.eventName),
+            h('div', { className: 'text-xs text-text-muted' }, `${ev.venue} • ${formatDateShort(ev.date)}`)
+          )
+        )
+      )
+    )
+  );
+}
+
+// ═══════════════════════════════════════════
+// PAGES
+// ═══════════════════════════════════════════
+
+// DASHBOARD
+function Dashboard({ navigate, reminders, setReminders }) {
+  const [promoterFilter, setPromoterFilter] = useState('all');
+  const [platformFilter, setPlatformFilter] = useState('all');
+  
+  const tomorrow = UPCOMING_EVENTS[0]; // Opetaia vs Glanton
+  const titleFightCount = UPCOMING_EVENTS.reduce((acc, ev) => acc + ev.fights.filter(f => f.isTitleFight).length, 0);
+  const uniqueCountries = [...new Set(UPCOMING_EVENTS.map(e => e.country))];
+  const uniquePlatforms = [...new Set(UPCOMING_EVENTS.flatMap(e => e.streaming))];
+  
+  const filteredEvents = UPCOMING_EVENTS.filter(ev => {
+    if (promoterFilter !== 'all' && !ev.promoter.toLowerCase().includes(promoterFilter)) return false;
+    if (platformFilter !== 'all' && !ev.streaming.some(s => s.toLowerCase().includes(platformFilter))) return false;
+    return true;
+  });
+
+  return h('div', { className: 'space-y-6 animate-in' },
+    // Hero Banner
+    h('div', { className: 'relative overflow-hidden rounded-xl bg-gradient-to-br from-slate-900 via-red-950/30 to-slate-900 border border-red/20 ring-pattern' },
+      h('div', { className: 'relative z-10 px-6 py-8 md:py-10' },
+        h('div', { className: 'flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6' },
+          h('div', null,
+            h('h1', { className: 'font-display text-3xl md:text-5xl text-white tracking-wide leading-tight' }, 'TRACK THE SWEET SCIENCE'),
+            h('p', { className: 'text-text-muted mt-2 text-sm max-w-lg' }, 'Your command center for upcoming fights, live results, and the boxing calendar.')
+          ),
+          // Tomorrow highlight
+          h('button', {
+            onClick: () => navigate(`event/${tomorrow.id}`),
+            className: 'shrink-0 bg-red-600/90 hover:bg-red-600 text-white rounded-xl p-4 text-left transition-all hover:scale-[1.02] max-w-xs shadow-lg shadow-red-900/30'
+          },
+            h('div', { className: 'flex items-center gap-2 mb-2' },
+              h('span', { className: 'px-2 py-0.5 bg-white/20 rounded text-[10px] font-bold uppercase tracking-wider animate-pulse' }, 'TOMORROW'),
+              h(Zap, { size: 14 })
+            ),
+            h('div', { className: 'font-display text-xl tracking-wide' }, 'OPETAIA vs GLANTON'),
+            h('div', { className: 'text-xs text-red-100 mt-1' },
+              'IBF/Ring Cruiserweight Titles • ',
+              h('span', { className: 'font-semibold' }, 'Paramount+')
+            ),
+            h('div', { className: 'text-xs text-red-200/70 mt-1' }, '9 PM ET / 6 PM PT • Meta APEX, Las Vegas')
+          )
+        )
+      )
+    ),
+
+    // Stats row
+    h('div', { className: 'grid grid-cols-2 lg:grid-cols-4 gap-3' },
+      h(StatBox, { label: 'Upcoming Events', value: UPCOMING_EVENTS.length, icon: Calendar }),
+      h(StatBox, { label: 'Title Fights', value: titleFightCount, icon: Award }),
+      h(StatBox, { label: 'Platforms', value: uniquePlatforms.length, icon: Tv }),
+      h(StatBox, { label: 'Countries', value: uniqueCountries.length, icon: Globe })
+    ),
+
+    // Filters
+    h('div', { className: 'flex flex-wrap items-center gap-3' },
+      h('div', { className: 'flex items-center gap-2 text-xs text-text-muted' },
+        h(Filter, { size: 14 }),
+        'Filter:'
+      ),
+      h('select', {
+        value: promoterFilter,
+        onChange: (e) => setPromoterFilter(e.target.value),
+        className: 'bg-surface border border-border rounded-lg px-3 py-1.5 text-xs text-text focus:outline-none focus:border-red/50'
+      },
+        h('option', { value: 'all' }, 'All Promoters'),
+        h('option', { value: 'zuffa' }, 'Zuffa Boxing'),
+        h('option', { value: 'matchroom' }, 'Matchroom'),
+        h('option', { value: 'pbc' }, 'PBC'),
+        h('option', { value: 'queensberry' }, 'Queensberry'),
+        h('option', { value: 'mvp' }, 'MVP'),
+        h('option', { value: 'wasserman' }, 'Wasserman')
+      ),
+      h('select', {
+        value: platformFilter,
+        onChange: (e) => setPlatformFilter(e.target.value),
+        className: 'bg-surface border border-border rounded-lg px-3 py-1.5 text-xs text-text focus:outline-none focus:border-red/50'
+      },
+        h('option', { value: 'all' }, 'All Platforms'),
+        h('option', { value: 'dazn' }, 'DAZN'),
+        h('option', { value: 'paramount' }, 'Paramount+'),
+        h('option', { value: 'prime' }, 'Prime Video'),
+        h('option', { value: 'sky' }, 'Sky Sports')
+      )
+    ),
+
+    // Upcoming Events
+    h('div', null,
+      h('h2', { className: 'font-display text-2xl tracking-wide mb-4' }, 'UPCOMING EVENTS'),
+      h('div', { className: 'space-y-3' },
+        filteredEvents.map(ev => h(EventCard, { key: ev.id, event: ev, navigate }))
+      )
+    ),
+
+    // Recent Results
+    h('div', null,
+      h('h2', { className: 'font-display text-2xl tracking-wide mb-4 flex items-center gap-2' },
+        h(TrendingUp, { size: 20, className: 'text-green' }),
+        'RECENT RESULTS'
+      ),
+      h('div', { className: 'space-y-3' },
+        RECENT_RESULTS.map(ev => h(ResultCard, { key: ev.id, event: ev, navigate }))
+      )
+    )
+  );
+}
+
+function EventCard({ event, navigate }) {
+  const mainFight = event.fights.find(f => f.isMainEvent);
+  const titleFights = event.fights.filter(f => f.isTitleFight).length;
+  const badge = getPromoterBadge(event.promoter);
+  const countdown = daysUntil(event.date);
+  const countdownClass = getCountdownClass(event.date);
+
+  return h('button', {
+    onClick: () => navigate(`event/${event.id}`),
+    className: 'w-full text-left bg-surface hover:bg-surface-2 border border-border hover:border-border-2 rounded-xl p-4 transition-all group'
+  },
+    h('div', { className: 'flex gap-4' },
+      // Date box
+      h('div', { className: 'hidden sm:flex flex-col items-center justify-center w-16 shrink-0' },
+        h('div', { className: 'text-[10px] font-semibold text-text-faint uppercase' },
+          new Date(event.date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short' })
+        ),
+        h('div', { className: 'text-2xl font-bold tabular-nums' },
+          new Date(event.date + 'T12:00:00').getDate()
+        ),
+        h('div', { className: 'text-[10px] text-text-faint uppercase' },
+          new Date(event.date + 'T12:00:00').toLocaleDateString('en-US', { month: 'short' })
+        ),
+        h('div', { className: `text-[9px] font-bold px-1.5 py-0.5 rounded mt-1 ${countdownClass}` }, countdown)
+      ),
+      // Content
+      h('div', { className: 'flex-1 min-w-0' },
+        h('div', { className: 'flex flex-wrap items-center gap-2 mb-2' },
+          h('span', { className: `text-[10px] font-semibold px-2 py-0.5 rounded ${badge.color}` }, badge.label),
+          event.streaming.map(s => h(StreamingBadge, { key: s, platform: s })),
+          event.ppvPrice && h('span', { className: 'text-[10px] font-bold text-amber-400' }, event.ppvPrice),
+          event.note && h('span', { className: 'text-[10px] font-bold px-2 py-0.5 rounded bg-pink-500/15 text-pink-300' }, event.note),
+          h('span', { className: `sm:hidden text-[9px] font-bold px-1.5 py-0.5 rounded ${countdownClass}` }, countdown)
+        ),
+        h('div', { className: 'font-display text-lg md:text-xl tracking-wide text-white group-hover:text-red transition-colors' },
+          event.eventName
+        ),
+        mainFight && h('div', { className: 'text-sm text-text-muted mt-1' },
+          h('span', { className: 'font-semibold text-text' }, mainFight.fighter1.name),
+          mainFight.fighter1.record && mainFight.fighter1.record !== 'champion' && h('span', { className: 'text-text-faint text-xs' }, ` (${mainFight.fighter1.record})`),
+          ' vs ',
+          h('span', { className: 'font-semibold text-text' }, mainFight.fighter2.name),
+          mainFight.fighter2.record && mainFight.fighter2.record !== 'former champion' && h('span', { className: 'text-text-faint text-xs' }, ` (${mainFight.fighter2.record})`)
+        ),
+        h('div', { className: 'flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-xs text-text-faint' },
+          h('span', { className: 'flex items-center gap-1' }, h(MapPin, { size: 12 }), `${event.venue}, ${event.city}`),
+          h('span', { className: 'flex items-center gap-1' }, h(Clock, { size: 12 }), event.time),
+          h('span', { className: 'flex items-center gap-1' }, h(Swords, { size: 12 }), `${event.fights.length} fights`),
+          titleFights > 0 && h('span', { className: 'flex items-center gap-1 text-amber-400' }, h(Award, { size: 12 }), `${titleFights} title ${titleFights === 1 ? 'fight' : 'fights'}`)
+        )
+      )
+    )
+  );
+}
+
+function ResultCard({ event, navigate }) {
+  const mainFight = event.fights.find(f => f.isMainEvent);
+  return h('div', {
+    className: 'bg-surface border border-border rounded-xl p-4 cursor-pointer hover:bg-surface-2 transition-colors',
+    onClick: () => navigate(`event/${event.id}`)
+  },
+    h('div', { className: 'flex items-start justify-between gap-4 mb-3' },
+      h('div', null,
+        h('div', { className: 'font-display text-lg tracking-wide' }, event.eventName),
+        h('div', { className: 'text-xs text-text-faint mt-1' }, `${formatDate(event.date)} • ${event.venue}, ${event.city}`)
+      ),
+      h('span', { className: 'shrink-0 px-2 py-0.5 rounded text-[10px] font-bold bg-green-bg text-green border border-green/20' }, 'COMPLETED')
+    ),
+    h('div', { className: 'space-y-2' },
+      event.fights.map((f, i) =>
+        h('div', { key: i, className: `flex items-center gap-3 text-sm ${f.isMainEvent ? 'font-semibold' : 'text-text-muted'}` },
+          f.result && h('span', { className: 'shrink-0 px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-bg text-green' }, `${f.result.method}${f.result.round ? f.result.round : ''}`),
+          h('span', { className: f.result && f.result.winner === f.fighter1.name ? 'text-green' : '' }, f.fighter1.name),
+          h('span', { className: 'text-text-faint' }, 'vs'),
+          h('span', { className: f.result && f.result.winner === f.fighter2.name ? 'text-green' : '' }, f.fighter2.name),
+          f.isTitleFight && h(Award, { size: 12, className: 'text-amber-400' })
+        )
+      )
+    )
+  );
+}
+
+// EVENT DETAIL
+function EventDetail({ eventId, navigate, reminders, setReminders, predictions, setPredictions }) {
+  const allEvents = [...UPCOMING_EVENTS, ...RECENT_RESULTS];
+  const event = allEvents.find(e => e.id === eventId);
+  
+  if (!event) {
+    return h('div', { className: 'text-center py-20 animate-in' },
+      h(AlertCircle, { size: 48, className: 'mx-auto text-text-faint mb-4' }),
+      h('h2', { className: 'font-display text-2xl mb-2' }, 'EVENT NOT FOUND'),
+      h('button', { onClick: () => navigate(''), className: 'text-red hover:underline text-sm' }, 'Back to Dashboard')
+    );
+  }
+
+  const isCompleted = event.status === 'completed';
+  const hasReminder = reminders.some(r => r.eventId === eventId);
+
+  function toggleReminder() {
+    if (hasReminder) {
+      setReminders(reminders.filter(r => r.eventId !== eventId));
+    } else {
+      setReminders([...reminders, { eventId, eventName: event.eventName, date: event.date, time: event.time }]);
+    }
+  }
+
+  return h('div', { className: 'space-y-6 animate-in' },
+    // Breadcrumb
+    h('div', { className: 'flex items-center gap-2 text-sm text-text-muted' },
+      h('button', { onClick: () => navigate(''), className: 'hover:text-text transition-colors' }, 'Dashboard'),
+      h(ChevronRight, { size: 14 }),
+      h('span', { className: 'text-text' }, event.eventName)
+    ),
+
+    // Header
+    h('div', { className: `relative overflow-hidden rounded-xl border ${isCompleted ? 'border-green/30 bg-gradient-to-br from-slate-900 via-green-950/20 to-slate-900' : 'border-red/20 bg-gradient-to-br from-slate-900 via-red-950/20 to-slate-900'}` },
+      h('div', { className: 'relative z-10 p-6' },
+        h('div', { className: 'flex flex-wrap items-start justify-between gap-4' },
+          h('div', null,
+            h('div', { className: 'flex flex-wrap items-center gap-2 mb-3' },
+              h('span', { className: `${getPromoterBadge(event.promoter).color} text-xs font-semibold px-2 py-0.5 rounded` }, getPromoterBadge(event.promoter).label),
+              event.streaming.map(s => h(StreamingBadge, { key: s, platform: s })),
+              event.ppvPrice && h('span', { className: 'text-xs font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded' }, event.ppvPrice),
+              isCompleted && h('span', { className: 'text-xs font-bold text-green bg-green-bg px-2 py-0.5 rounded' }, 'COMPLETED'),
+              event.note && h('span', { className: 'text-xs font-bold text-pink-300 bg-pink-500/15 px-2 py-0.5 rounded' }, event.note)
+            ),
+            h('h1', { className: 'font-display text-3xl md:text-4xl tracking-wide text-white' }, event.eventName),
+            h('div', { className: 'flex flex-wrap gap-4 mt-3 text-sm text-text-muted' },
+              h('span', { className: 'flex items-center gap-1.5' }, h(Calendar, { size: 14 }), formatDate(event.date)),
+              event.time && h('span', { className: 'flex items-center gap-1.5' }, h(Clock, { size: 14 }), event.time),
+              h('span', { className: 'flex items-center gap-1.5' }, h(MapPin, { size: 14 }), `${event.venue}, ${event.city}, ${event.country}`)
+            )
+          ),
+          !isCompleted && h('button', {
+            onClick: toggleReminder,
+            className: `flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              hasReminder ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-surface border border-border hover:border-red/50 text-text-muted hover:text-text'
+            }`
+          },
+            h(Bell, { size: 16 }),
+            hasReminder ? 'Reminder Set' : 'Set Reminder'
+          )
+        )
+      )
+    ),
+
+    // Fight Card
+    h('div', { className: 'space-y-4' },
+      h('h2', { className: 'font-display text-xl tracking-wide flex items-center gap-2' },
+        h(Swords, { size: 18, className: 'text-red' }),
+        'FIGHT CARD'
+      ),
+      event.fights.map((fight, i) => h(FightCard, {
+        key: i,
+        fight,
+        index: i,
+        eventId,
+        isCompleted,
+        navigate,
+        predictions,
+        setPredictions
+      }))
+    )
+  );
+}
+
+function FightCard({ fight, index, eventId, isCompleted, navigate, predictions, setPredictions }) {
+  const predKey = `${eventId}-${index}`;
+  const prediction = predictions[predKey];
+
+  function makePrediction(fighter) {
+    setPredictions({ ...predictions, [predKey]: fighter });
+  }
+
+  const fightTypeLabel = fight.isMainEvent ? 'MAIN EVENT' : fight.isCoMainEvent ? 'CO-MAIN' : 'UNDERCARD';
+  const fightTypeClass = fight.isMainEvent ? 'border-red/40 bg-red/5' : fight.isCoMainEvent ? 'border-amber-500/30 bg-amber-500/5' : 'border-border';
+
+  return h('div', { className: `rounded-xl border ${fightTypeClass} overflow-hidden` },
+    // Fight header
+    h('div', { className: 'flex items-center justify-between px-4 py-2 bg-surface-2/50 border-b border-border/50' },
+      h('div', { className: 'flex items-center gap-2' },
+        h('span', { className: `text-[10px] font-bold uppercase tracking-wider ${fight.isMainEvent ? 'text-red' : fight.isCoMainEvent ? 'text-amber-400' : 'text-text-faint'}` }, fightTypeLabel),
+        fight.isTitleFight && fight.titles && fight.titles.map((t, i) => h(TitleBadge, { key: i, title: t }))
+      ),
+      h('div', { className: 'text-xs text-text-faint' }, `${fight.weightClass} • ${fight.rounds} Rounds`)
+    ),
+    
+    // Fighters
+    h('div', { className: 'p-4' },
+      h('div', { className: 'flex items-center justify-between gap-4' },
+        // Fighter 1
+        h('div', { className: 'flex-1 text-center' },
+          h('button', {
+            onClick: () => navigate(`fighter/${fight.fighter1.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`),
+            className: 'inline-block hover:opacity-80 transition-opacity'
+          },
+            h(FighterAvatar, { name: fight.fighter1.name, size: 'lg', country: fight.fighter1.country }),
+          ),
+          h('button', {
+            onClick: () => navigate(`fighter/${fight.fighter1.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`),
+            className: 'block mt-2 hover:text-red transition-colors'
+          },
+            h('div', { className: `font-display text-lg tracking-wide ${fight.result && fight.result.winner === fight.fighter1.name ? 'text-green' : ''}` }, fight.fighter1.name),
+            fight.fighter1.nickname && h('div', { className: 'text-[10px] text-text-faint italic' }, `"${fight.fighter1.nickname}"`)
+          ),
+          h('div', { className: 'text-xs text-text-muted mt-1 tabular-nums' }, fight.fighter1.record || ''),
+          fight.fighter1.kos && h('div', { className: 'text-[10px] text-text-faint' }, `${fight.fighter1.kos} KOs`),
+          fight.fighter1.country && h('div', { className: 'text-xs mt-1' }, `${countryFlag(fight.fighter1.country)} ${fight.fighter1.country}`)
+        ),
+
+        // VS / Result
+        h('div', { className: 'shrink-0 text-center' },
+          fight.result
+            ? h('div', null,
+                h('div', { className: 'text-xs font-bold text-green bg-green-bg px-2 py-1 rounded' },
+                  `${fight.result.method}${fight.result.round ? ' R' + fight.result.round : ''}`
+                ),
+                fight.result.time && h('div', { className: 'text-[10px] text-text-faint mt-1' }, fight.result.time)
+              )
+            : h('div', { className: 'font-display text-2xl text-text-faint' }, 'VS')
+        ),
+
+        // Fighter 2
+        h('div', { className: 'flex-1 text-center' },
+          h('button', {
+            onClick: () => navigate(`fighter/${fight.fighter2.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`),
+            className: 'inline-block hover:opacity-80 transition-opacity'
+          },
+            h(FighterAvatar, { name: fight.fighter2.name, size: 'lg', country: fight.fighter2.country }),
+          ),
+          h('button', {
+            onClick: () => navigate(`fighter/${fight.fighter2.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`),
+            className: 'block mt-2 hover:text-red transition-colors'
+          },
+            h('div', { className: `font-display text-lg tracking-wide ${fight.result && fight.result.winner === fight.fighter2.name ? 'text-green' : ''}` }, fight.fighter2.name),
+            fight.fighter2.nickname && h('div', { className: 'text-[10px] text-text-faint italic' }, `"${fight.fighter2.nickname}"`)
+          ),
+          h('div', { className: 'text-xs text-text-muted mt-1 tabular-nums' }, fight.fighter2.record || ''),
+          fight.fighter2.kos && h('div', { className: 'text-[10px] text-text-faint' }, `${fight.fighter2.kos} KOs`),
+          fight.fighter2.country && h('div', { className: 'text-xs mt-1' }, `${countryFlag(fight.fighter2.country)} ${fight.fighter2.country}`)
+        )
+      ),
+
+      // Tale of the tape
+      (fight.fighter1.height || fight.fighter1.reach || fight.fighter1.stance) && h('div', { className: 'mt-4 grid grid-cols-3 gap-2 text-center text-xs border-t border-border/50 pt-4' },
+        ['Height', 'Reach', 'Stance', 'Age'].map(stat => {
+          const key = stat.toLowerCase();
+          const v1 = fight.fighter1[key];
+          const v2 = fight.fighter2[key];
+          if (!v1 && !v2) return null;
+          return h('div', { key: stat, className: 'contents' },
+            h('div', { className: 'text-text-muted tabular-nums' }, v1 || '—'),
+            h('div', { className: 'font-semibold text-text-faint uppercase text-[10px]' }, stat),
+            h('div', { className: 'text-text-muted tabular-nums' }, v2 || '—')
+          );
+        })
+      ),
+
+      // Prediction buttons
+      !isCompleted && !fight.result && h('div', { className: 'mt-4 pt-4 border-t border-border/50' },
+        h('div', { className: 'text-[10px] text-text-faint text-center mb-2 font-semibold uppercase tracking-wider' }, 'Who wins?'),
+        h('div', { className: 'flex gap-2' },
+          h('button', {
+            onClick: () => makePrediction(fight.fighter1.name),
+            className: `flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
+              prediction === fight.fighter1.name
+                ? 'bg-red text-white'
+                : 'bg-surface-2 text-text-muted hover:bg-surface-3 hover:text-text'
+            }`
+          }, fight.fighter1.name.split(' ').pop()),
+          h('button', {
+            onClick: () => makePrediction('draw'),
+            className: `px-3 py-2 rounded-lg text-xs font-semibold transition-all ${
+              prediction === 'draw'
+                ? 'bg-amber-500 text-black'
+                : 'bg-surface-2 text-text-muted hover:bg-surface-3 hover:text-text'
+            }`
+          }, 'Draw'),
+          h('button', {
+            onClick: () => makePrediction(fight.fighter2.name),
+            className: `flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
+              prediction === fight.fighter2.name
+                ? 'bg-red text-white'
+                : 'bg-surface-2 text-text-muted hover:bg-surface-3 hover:text-text'
+            }`
+          }, fight.fighter2.name.split(' ').pop())
+        )
+      )
+    )
+  );
+}
+
+// FIGHTER PROFILE
+function FighterProfile({ fighterId, navigate }) {
+  const fighter = ALL_FIGHTERS[fighterId];
+  
+  if (!fighter) {
+    return h('div', { className: 'text-center py-20 animate-in' },
+      h(AlertCircle, { size: 48, className: 'mx-auto text-text-faint mb-4' }),
+      h('h2', { className: 'font-display text-2xl mb-2' }, 'FIGHTER NOT FOUND'),
+      h('button', { onClick: () => navigate(''), className: 'text-red hover:underline text-sm' }, 'Back to Dashboard')
+    );
+  }
+
+  const winRate = getWinRate(fighter.record);
+  const koRate = getKoRate(fighter.record, fighter.kos);
+  const p4pEntry = P4P_RANKINGS.find(r => r.name === fighter.name);
+
+  // Find events this fighter is in
+  const fighterEvents = [...UPCOMING_EVENTS, ...RECENT_RESULTS].filter(ev =>
+    ev.fights.some(f => f.fighter1.name === fighter.name || f.fighter2.name === fighter.name)
+  );
+
+  return h('div', { className: 'space-y-6 animate-in' },
+    // Breadcrumb
+    h('div', { className: 'flex items-center gap-2 text-sm text-text-muted' },
+      h('button', { onClick: () => navigate(''), className: 'hover:text-text transition-colors' }, 'Dashboard'),
+      h(ChevronRight, { size: 14 }),
+      h('span', { className: 'text-text' }, fighter.name)
+    ),
+
+    // Header
+    h('div', { className: 'bg-gradient-to-br from-slate-900 via-red-950/10 to-slate-900 rounded-xl border border-border p-6' },
+      h('div', { className: 'flex flex-col sm:flex-row items-center sm:items-start gap-6' },
+        h(FighterAvatar, { name: fighter.name, size: 'lg', country: fighter.country }),
+        h('div', { className: 'text-center md:text-left flex-1' },
+          h('div', { className: 'flex flex-wrap items-center justify-center md:justify-start gap-3' },
+            h('h1', { className: 'font-display text-3xl md:text-4xl tracking-wide' }, fighter.name),
+            p4pEntry && h('span', { className: 'px-2 py-0.5 bg-amber-500/15 text-amber-300 text-xs font-bold rounded border border-amber-500/25' }, `P4P #${p4pEntry.rank}`)
+          ),
+          fighter.nickname && h('div', { className: 'text-text-muted text-sm italic mt-1' }, `"${fighter.nickname}"`),
+          h('div', { className: 'flex flex-wrap justify-center md:justify-start gap-4 mt-3' },
+            fighter.record && fighter.record !== 'tbd' && fighter.record !== 'loss' && h('div', null,
+              h('div', { className: 'font-display text-2xl tracking-wide tabular-nums' }, fighter.record),
+              h('div', { className: 'text-[10px] text-text-faint uppercase' }, 'Record')
+            ),
+            fighter.kos && h('div', null,
+              h('div', { className: 'font-display text-2xl tracking-wide tabular-nums' }, fighter.kos),
+              h('div', { className: 'text-[10px] text-text-faint uppercase' }, 'KOs')
+            ),
+            winRate !== null && h('div', null,
+              h('div', { className: 'font-display text-2xl tracking-wide' }, `${winRate}%`),
+              h('div', { className: 'text-[10px] text-text-faint uppercase' }, 'Win Rate')
+            ),
+            koRate !== null && h('div', null,
+              h('div', { className: 'font-display text-2xl tracking-wide' }, `${koRate}%`),
+              h('div', { className: 'text-[10px] text-text-faint uppercase' }, 'KO Rate')
+            )
+          )
+        )
+      )
+    ),
+
+    // Physical stats
+    (fighter.height || fighter.reach || fighter.stance || fighter.age || fighter.country || fighter.division) &&
+    h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+      h('h3', { className: 'font-display text-lg tracking-wide mb-3' }, 'PHYSICAL STATS'),
+      h('div', { className: 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4' },
+        fighter.height && h('div', null,
+          h('div', { className: 'text-xs text-text-faint uppercase' }, 'Height'),
+          h('div', { className: 'font-semibold' }, fighter.height)
+        ),
+        fighter.reach && h('div', null,
+          h('div', { className: 'text-xs text-text-faint uppercase' }, 'Reach'),
+          h('div', { className: 'font-semibold' }, fighter.reach)
+        ),
+        fighter.stance && h('div', null,
+          h('div', { className: 'text-xs text-text-faint uppercase' }, 'Stance'),
+          h('div', { className: 'font-semibold' }, fighter.stance)
+        ),
+        fighter.age && h('div', null,
+          h('div', { className: 'text-xs text-text-faint uppercase' }, 'Age'),
+          h('div', { className: 'font-semibold' }, fighter.age)
+        ),
+        fighter.country && h('div', null,
+          h('div', { className: 'text-xs text-text-faint uppercase' }, 'Country'),
+          h('div', { className: 'font-semibold' }, `${countryFlag(fighter.country)} ${fighter.country}`)
+        ),
+        fighter.division && h('div', null,
+          h('div', { className: 'text-xs text-text-faint uppercase' }, 'Division'),
+          h('div', { className: 'font-semibold' }, fighter.division)
+        )
+      )
+    ),
+
+    // Record breakdown
+    winRate !== null && h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+      h('h3', { className: 'font-display text-lg tracking-wide mb-3' }, 'RECORD BREAKDOWN'),
+      h('div', { className: 'space-y-3' },
+        h('div', null,
+          h('div', { className: 'flex justify-between text-xs mb-1' },
+            h('span', { className: 'text-text-muted' }, 'Win Rate'),
+            h('span', { className: 'font-semibold text-green' }, `${winRate}%`)
+          ),
+          h('div', { className: 'h-2 bg-surface-3 rounded-full overflow-hidden' },
+            h('div', { className: 'h-full bg-green rounded-full transition-all', style: { width: `${winRate}%` } })
+          )
+        ),
+        koRate !== null && h('div', null,
+          h('div', { className: 'flex justify-between text-xs mb-1' },
+            h('span', { className: 'text-text-muted' }, 'KO Rate'),
+            h('span', { className: 'font-semibold text-red' }, `${koRate}%`)
+          ),
+          h('div', { className: 'h-2 bg-surface-3 rounded-full overflow-hidden' },
+            h('div', { className: 'h-full bg-red rounded-full transition-all', style: { width: `${koRate}%` } })
+          )
+        )
+      )
+    ),
+
+    // Upcoming/Recent Fights
+    fighterEvents.length > 0 && h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+      h('h3', { className: 'font-display text-lg tracking-wide mb-3' }, 'FIGHTS'),
+      h('div', { className: 'space-y-2' },
+        fighterEvents.map(ev =>
+          h('button', {
+            key: ev.id,
+            onClick: () => navigate(`event/${ev.id}`),
+            className: 'w-full text-left flex items-center gap-3 p-3 rounded-lg bg-surface-2 hover:bg-surface-3 transition-colors'
+          },
+            h('div', { className: 'text-xs text-text-faint w-20 shrink-0' }, formatDateShort(ev.date)),
+            h('div', { className: 'flex-1 min-w-0' },
+              h('div', { className: 'text-sm font-semibold truncate' }, ev.eventName),
+              h('div', { className: 'text-xs text-text-muted' }, `${ev.venue}, ${ev.city}`)
+            ),
+            ev.status === 'completed' && h('span', { className: 'text-[10px] font-bold text-green bg-green-bg px-2 py-0.5 rounded shrink-0' }, 'RESULT'),
+            ev.status !== 'completed' && h('span', { className: 'text-[10px] font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded shrink-0' }, daysUntil(ev.date))
+          )
+        )
+      )
+    ),
+
+    // P4P info
+    p4pEntry && p4pEntry.titles.length > 0 && h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+      h('h3', { className: 'font-display text-lg tracking-wide mb-3' }, 'TITLES'),
+      h('div', { className: 'flex flex-wrap gap-2' },
+        p4pEntry.titles.map((t, i) => h(TitleBadge, { key: i, title: t }))
+      )
+    )
+  );
+}
+
+// RANKINGS
+function Rankings({ navigate }) {
+  return h('div', { className: 'space-y-6 animate-in' },
+    h('div', null,
+      h('h1', { className: 'font-display text-3xl tracking-wide' }, 'POUND-FOR-POUND RANKINGS'),
+      h('p', { className: 'text-sm text-text-muted mt-1' }, 'ESPN P4P Top 10 — February 2026')
+    ),
+    h('div', { className: 'space-y-2' },
+      P4P_RANKINGS.map((fighter, i) =>
+        h('button', {
+          key: fighter.rank,
+          onClick: () => navigate(`fighter/${fighter.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`),
+          className: 'w-full text-left bg-surface hover:bg-surface-2 border border-border hover:border-border-2 rounded-xl p-4 transition-all group',
+          style: { animationDelay: `${i * 50}ms` }
+        },
+          h('div', { className: 'flex items-center gap-4' },
+            // Rank
+            h('div', { className: `w-10 h-10 rounded-lg flex items-center justify-center font-display text-xl shrink-0 ${
+              fighter.rank <= 3 ? 'bg-amber-500/15 text-amber-300' : 'bg-surface-3 text-text-faint'
+            }` }, fighter.rank),
+            // Avatar
+            h(FighterAvatar, { name: fighter.name, size: 'md', country: fighter.country }),
+            // Info
+            h('div', { className: 'flex-1 min-w-0' },
+              h('div', { className: 'flex flex-wrap items-center gap-2' },
+                h('span', { className: 'font-display text-lg tracking-wide group-hover:text-red transition-colors' }, fighter.name),
+                fighter.nickname && h('span', { className: 'text-xs text-text-faint italic hidden sm:inline' }, `"${fighter.nickname}"`)
+              ),
+              h('div', { className: 'flex flex-wrap gap-x-4 gap-y-1 text-xs text-text-muted mt-1' },
+                h('span', { className: 'tabular-nums font-semibold text-text' }, fighter.record),
+                fighter.kos && h('span', null, `${fighter.kos} KOs`),
+                h('span', null, fighter.division),
+                h('span', null, `${countryFlag(fighter.country)} ${fighter.country}`)
+              )
+            ),
+            // Titles
+            h('div', { className: 'hidden md:flex flex-col items-end gap-1 shrink-0' },
+              fighter.titles.slice(0, 1).map((t, i) => h('span', { key: i, className: 'text-[10px] font-semibold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded' }, t))
+            )
+          )
+        )
+      )
+    )
+  );
+}
+
+// CALENDAR
+function CalendarPage({ navigate }) {
+  const [currentMonth, setCurrentMonth] = useState(new Date(2026, 2, 1)); // March 2026
+  
+  const year = currentMonth.getFullYear();
+  const month = currentMonth.getMonth();
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  
+  const days = [];
+  for (let i = 0; i < firstDay; i++) days.push(null);
+  for (let i = 1; i <= daysInMonth; i++) days.push(i);
+  
+  const monthStr = currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  
+  // Events for this month
+  const allEvents = [...UPCOMING_EVENTS, ...RECENT_RESULTS];
+  const monthEvents = allEvents.filter(ev => {
+    const d = new Date(ev.date + 'T12:00:00');
+    return d.getMonth() === month && d.getFullYear() === year;
+  });
+
+  function getEventsForDay(day) {
+    return monthEvents.filter(ev => {
+      const d = new Date(ev.date + 'T12:00:00');
+      return d.getDate() === day;
+    });
+  }
+
+  function goToToday() {
+    setCurrentMonth(new Date(2026, 2, 1));
+  }
+
+  return h('div', { className: 'space-y-6 animate-in' },
+    h('div', { className: 'flex items-center justify-between' },
+      h('h1', { className: 'font-display text-3xl tracking-wide' }, 'CALENDAR'),
+      h('div', { className: 'flex items-center gap-2' },
+        h('button', { onClick: goToToday, className: 'px-3 py-1.5 text-xs font-medium bg-surface border border-border rounded-lg hover:bg-surface-2 transition-colors' }, 'Today'),
+        h('button', { onClick: () => setCurrentMonth(new Date(year, month - 1, 1)), className: 'p-2 rounded-lg bg-surface border border-border hover:bg-surface-2 transition-colors' },
+          h(ChevronLeft, { size: 16 })
+        ),
+        h('span', { className: 'font-display text-xl tracking-wide min-w-[180px] text-center' }, monthStr.toUpperCase()),
+        h('button', { onClick: () => setCurrentMonth(new Date(year, month + 1, 1)), className: 'p-2 rounded-lg bg-surface border border-border hover:bg-surface-2 transition-colors' },
+          h(ChevronRight, { size: 16 })
+        )
+      )
+    ),
+
+    // Calendar grid
+    h('div', { className: 'bg-surface rounded-xl border border-border overflow-hidden' },
+      h('div', { className: 'grid grid-cols-7 border-b border-border' },
+        ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d =>
+          h('div', { key: d, className: 'py-2 text-center text-xs font-semibold text-text-faint uppercase' }, d)
+        )
+      ),
+      h('div', { className: 'grid grid-cols-7' },
+        days.map((day, i) => {
+          const events = day ? getEventsForDay(day) : [];
+          const isToday = day === 7 && month === 2 && year === 2026;
+          return h('div', {
+            key: i,
+            className: `min-h-[80px] md:min-h-[100px] border-b border-r border-border/50 p-1.5 ${
+              day ? 'hover:bg-surface-2/50 cursor-pointer' : 'bg-surface-2/20'
+            } ${isToday ? 'bg-red/5' : ''}`
+          },
+            day && h('div', null,
+              h('div', { className: `text-xs font-medium mb-1 ${isToday ? 'text-red font-bold' : 'text-text-muted'}` },
+                isToday ? h('span', { className: 'bg-red text-white w-5 h-5 rounded-full inline-flex items-center justify-center text-[10px]' }, day) : day
+              ),
+              events.map(ev =>
+                h('button', {
+                  key: ev.id,
+                  onClick: () => navigate(`event/${ev.id}`),
+                  className: `w-full text-left text-[9px] md:text-[10px] font-medium px-1 py-0.5 rounded mb-0.5 truncate transition-colors ${
+                    ev.status === 'completed'
+                      ? 'bg-green-bg text-green hover:bg-green/20'
+                      : ev.fights.some(f => f.isTitleFight)
+                        ? 'bg-amber-500/10 text-amber-300 hover:bg-amber-500/20'
+                        : 'bg-red/10 text-red-300 hover:bg-red/20'
+                  }`
+                }, ev.eventName)
+              )
+            )
+          );
+        })
+      )
+    ),
+
+    // Events list for this month
+    monthEvents.length > 0 && h('div', null,
+      h('h2', { className: 'font-display text-xl tracking-wide mb-3' }, `${monthStr.toUpperCase()} EVENTS`),
+      h('div', { className: 'space-y-2' },
+        monthEvents.sort((a, b) => a.date.localeCompare(b.date)).map(ev =>
+          h(EventCard, { key: ev.id, event: { ...ev, status: ev.status }, navigate })
+        )
+      )
+    )
+  );
+}
+
+// REMINDERS
+function Reminders({ reminders, setReminders, navigate }) {
+  return h('div', { className: 'space-y-6 animate-in' },
+    h('div', null,
+      h('h1', { className: 'font-display text-3xl tracking-wide' }, 'REMINDERS'),
+      h('p', { className: 'text-sm text-text-muted mt-1' }, 'Set reminders from event pages. In-memory only — resets on refresh.')
+    ),
+    reminders.length === 0
+      ? h('div', { className: 'text-center py-16' },
+          h(Bell, { size: 48, className: 'mx-auto text-text-faint mb-4' }),
+          h('h3', { className: 'font-display text-xl text-text-faint mb-2' }, 'NO REMINDERS SET'),
+          h('p', { className: 'text-sm text-text-muted mb-4' }, 'Browse upcoming events and set reminders for fights you don\'t want to miss.'),
+          h('button', { onClick: () => navigate(''), className: 'px-4 py-2 bg-red text-white rounded-lg text-sm font-medium hover:bg-red-hover transition-colors' }, 'Browse Events')
+        )
+      : h('div', { className: 'space-y-2' },
+          reminders.map((r, i) =>
+            h('div', { key: i, className: 'bg-surface border border-border rounded-xl p-4 flex items-center justify-between' },
+              h('button', { onClick: () => navigate(`event/${r.eventId}`), className: 'flex-1 text-left hover:opacity-80 transition-opacity' },
+                h('div', { className: 'font-display text-lg tracking-wide' }, r.eventName),
+                h('div', { className: 'flex items-center gap-3 text-xs text-text-muted mt-1' },
+                  h('span', null, formatDate(r.date)),
+                  r.time && h('span', null, r.time),
+                  h('span', { className: `font-bold px-1.5 py-0.5 rounded ${getCountdownClass(r.date)}` }, daysUntil(r.date))
+                )
+              ),
+              h('button', {
+                onClick: () => setReminders(reminders.filter((_, j) => j !== i)),
+                className: 'p-2 rounded-lg text-text-faint hover:text-red hover:bg-red/10 transition-colors',
+                'aria-label': 'Delete reminder'
+              }, h(Trash2, { size: 16 }))
+            )
+          )
+        )
+  );
+}
+
+// STATS
+function StatsPage({ navigate }) {
+  // Compute stats from all data
+  const totalUpcoming = UPCOMING_EVENTS.length;
+  const totalFights = UPCOMING_EVENTS.reduce((acc, ev) => acc + ev.fights.length, 0);
+  const titleFights = UPCOMING_EVENTS.reduce((acc, ev) => acc + ev.fights.filter(f => f.isTitleFight).length, 0);
+  const allPlatforms = [...new Set(UPCOMING_EVENTS.flatMap(e => e.streaming))];
+  const allCountries = [...new Set(UPCOMING_EVENTS.map(e => e.country))];
+  const allPromoters = [...new Set(UPCOMING_EVENTS.map(e => e.promoter))];
+  const allWeightClasses = [...new Set([...UPCOMING_EVENTS, ...RECENT_RESULTS].flatMap(e => e.fights.map(f => f.weightClass)))];
+  
+  // Weight class fight distribution
+  const wcCounts = {};
+  [...UPCOMING_EVENTS, ...RECENT_RESULTS].forEach(ev => {
+    ev.fights.forEach(f => {
+      wcCounts[f.weightClass] = (wcCounts[f.weightClass] || 0) + 1;
+    });
+  });
+  const sortedWC = Object.entries(wcCounts).sort((a, b) => b[1] - a[1]);
+  const maxWC = sortedWC[0] ? sortedWC[0][1] : 1;
+
+  // Country distribution
+  const countryCounts = {};
+  [...UPCOMING_EVENTS, ...RECENT_RESULTS].forEach(ev => {
+    countryCounts[ev.country] = (countryCounts[ev.country] || 0) + 1;
+  });
+  const sortedCountries = Object.entries(countryCounts).sort((a, b) => b[1] - a[1]);
+
+  // Platform distribution
+  const platformCounts = {};
+  UPCOMING_EVENTS.forEach(ev => {
+    ev.streaming.forEach(s => {
+      platformCounts[s] = (platformCounts[s] || 0) + 1;
+    });
+  });
+  const sortedPlatforms = Object.entries(platformCounts).sort((a, b) => b[1] - a[1]);
+
+  // Undefeated fighters in upcoming events
+  const undefeated = [];
+  UPCOMING_EVENTS.forEach(ev => {
+    ev.fights.forEach(f => {
+      [f.fighter1, f.fighter2].forEach(fighter => {
+        if (fighter.record && /^\d+-0(-\d+)?$/.test(fighter.record) && !undefeated.find(u => u.name === fighter.name)) {
+          undefeated.push(fighter);
+        }
+      });
+    });
+  });
+
+  return h('div', { className: 'space-y-6 animate-in' },
+    h('div', null,
+      h('h1', { className: 'font-display text-3xl tracking-wide' }, 'BOXING STATS'),
+      h('p', { className: 'text-sm text-text-muted mt-1' }, 'Data overview for upcoming and recent events')
+    ),
+
+    // Overview cards
+    h('div', { className: 'grid grid-cols-2 lg:grid-cols-4 gap-3' },
+      h(StatBox, { label: 'Upcoming Events', value: totalUpcoming, icon: Calendar }),
+      h(StatBox, { label: 'Total Fights', value: totalFights, icon: Swords }),
+      h(StatBox, { label: 'Title Fights', value: titleFights, icon: Award }),
+      h(StatBox, { label: 'Undefeated Fighters', value: undefeated.length, icon: Shield })
+    ),
+
+    // Weight class distribution
+    h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+      h('h3', { className: 'font-display text-lg tracking-wide mb-4' }, 'FIGHTS BY WEIGHT CLASS'),
+      h('div', { className: 'space-y-2' },
+        sortedWC.map(([wc, count]) =>
+          h('div', { key: wc, className: 'flex items-center gap-3' },
+            h('div', { className: 'w-40 text-xs text-text-muted truncate shrink-0' }, wc),
+            h('div', { className: 'flex-1 h-5 bg-surface-3 rounded-full overflow-hidden' },
+              h('div', { className: 'h-full bg-red rounded-full transition-all', style: { width: `${(count / maxWC) * 100}%` } })
+            ),
+            h('div', { className: 'w-6 text-right text-xs font-bold tabular-nums' }, count)
+          )
+        )
+      )
+    ),
+
+    // Platform + Country side by side
+    h('div', { className: 'grid md:grid-cols-2 gap-4' },
+      h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+        h('h3', { className: 'font-display text-lg tracking-wide mb-3' }, 'BY PLATFORM'),
+        h('div', { className: 'space-y-2' },
+          sortedPlatforms.map(([p, count]) =>
+            h('div', { key: p, className: 'flex items-center justify-between py-2 border-b border-border/50 last:border-0' },
+              h(StreamingBadge, { platform: p }),
+              h('span', { className: 'text-sm font-bold tabular-nums' }, `${count} event${count > 1 ? 's' : ''}`)
+            )
+          )
+        )
+      ),
+      h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+        h('h3', { className: 'font-display text-lg tracking-wide mb-3' }, 'BY COUNTRY'),
+        h('div', { className: 'space-y-2' },
+          sortedCountries.map(([c, count]) =>
+            h('div', { key: c, className: 'flex items-center justify-between py-2 border-b border-border/50 last:border-0' },
+              h('span', { className: 'text-sm flex items-center gap-2' }, countryFlag(c), c),
+              h('span', { className: 'text-sm font-bold tabular-nums' }, `${count} event${count > 1 ? 's' : ''}`)
+            )
+          )
+        )
+      )
+    ),
+
+    // Undefeated fighters
+    undefeated.length > 0 && h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+      h('h3', { className: 'font-display text-lg tracking-wide mb-3 flex items-center gap-2' },
+        h(Shield, { size: 18, className: 'text-green' }),
+        'UNDEFEATED FIGHTERS IN UPCOMING EVENTS'
+      ),
+      h('div', { className: 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3' },
+        undefeated.map((f, i) =>
+          h('button', {
+            key: i,
+            onClick: () => navigate(`fighter/${f.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`),
+            className: 'bg-surface-2 hover:bg-surface-3 rounded-lg p-3 text-left transition-colors'
+          },
+            h('div', { className: 'font-display text-sm tracking-wide' }, f.name),
+            h('div', { className: 'text-xs text-green tabular-nums mt-0.5' }, f.record),
+            f.country && h('div', { className: 'text-xs text-text-faint mt-0.5' }, `${countryFlag(f.country)} ${f.country}`)
+          )
+        )
+      )
+    )
+  );
+}
+
+// REPORTS
+function Reports({ navigate }) {
+  const [selectedEvents, setSelectedEvents] = useState([]);
+  const [includeUndercard, setIncludeUndercard] = useState(true);
+  const [includeTape, setIncludeTape] = useState(true);
+  const [reportMode, setReportMode] = useState('detailed');
+  const [preview, setPreview] = useState('');
+
+  function toggleEvent(id) {
+    setSelectedEvents(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]);
+  }
+
+  function generateReport() {
+    const allEvents = [...UPCOMING_EVENTS, ...RECENT_RESULTS];
+    const events = allEvents.filter(e => selectedEvents.includes(e.id));
+    
+    let md = `# Squared Circle Tracker — Boxing Report\n`;
+    md += `Generated: March 7, 2026\n\n`;
+    
+    events.forEach(ev => {
+      md += `## ${ev.eventName}\n`;
+      md += `**Date:** ${formatDate(ev.date)}\n`;
+      md += `**Venue:** ${ev.venue}, ${ev.city}, ${ev.country}\n`;
+      md += `**Streaming:** ${ev.streaming.join(', ')}`;
+      if (ev.time) md += ` | ${ev.time}`;
+      md += `\n`;
+      if (ev.ppvPrice) md += `**PPV Price:** ${ev.ppvPrice}\n`;
+      md += `\n`;
+
+      const fights = includeUndercard ? ev.fights : ev.fights.filter(f => f.isMainEvent || f.isCoMainEvent);
+      
+      fights.forEach(f => {
+        const tag = f.isMainEvent ? '**MAIN EVENT**' : f.isCoMainEvent ? '**CO-MAIN**' : '';
+        md += `### ${tag} ${f.fighter1.name} vs ${f.fighter2.name}\n`;
+        md += `${f.weightClass} • ${f.rounds} Rounds\n`;
+        if (f.isTitleFight && f.titles) md += `🏆 ${f.titles.join(', ')}\n`;
+        
+        if (f.result) {
+          md += `**Result:** ${f.result.winner} wins by ${f.result.method}`;
+          if (f.result.round) md += ` in Round ${f.result.round}`;
+          if (f.result.time) md += ` at ${f.result.time}`;
+          md += `\n`;
+        }
+
+        if (includeTape && reportMode === 'detailed') {
+          md += `\n| Stat | ${f.fighter1.name} | ${f.fighter2.name} |\n`;
+          md += `|---|---|---|\n`;
+          if (f.fighter1.record) md += `| Record | ${f.fighter1.record} | ${f.fighter2.record || 'TBD'} |\n`;
+          if (f.fighter1.height) md += `| Height | ${f.fighter1.height} | ${f.fighter2.height || '—'} |\n`;
+          if (f.fighter1.reach) md += `| Reach | ${f.fighter1.reach} | ${f.fighter2.reach || '—'} |\n`;
+          if (f.fighter1.stance) md += `| Stance | ${f.fighter1.stance} | ${f.fighter2.stance || '—'} |\n`;
+          if (f.fighter1.country) md += `| Country | ${f.fighter1.country} | ${f.fighter2.country || '—'} |\n`;
+        }
+        md += `\n`;
+      });
+      md += `---\n\n`;
+    });
+
+    setPreview(md);
+  }
+
+  function downloadReport() {
+    const blob = new Blob([preview], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'boxing-report.md';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return h('div', { className: 'space-y-6 animate-in' },
+    h('div', null,
+      h('h1', { className: 'font-display text-3xl tracking-wide' }, 'REPORT GENERATOR'),
+      h('p', { className: 'text-sm text-text-muted mt-1' }, 'Create custom boxing event reports')
+    ),
+
+    // Event selection
+    h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+      h('h3', { className: 'font-display text-lg tracking-wide mb-3' }, 'SELECT EVENTS'),
+      h('div', { className: 'space-y-2 max-h-64 overflow-y-auto' },
+        [...UPCOMING_EVENTS, ...RECENT_RESULTS].map(ev =>
+          h('label', { key: ev.id, className: 'flex items-center gap-3 p-2 rounded-lg hover:bg-surface-2 cursor-pointer transition-colors' },
+            h('input', {
+              type: 'checkbox',
+              checked: selectedEvents.includes(ev.id),
+              onChange: () => toggleEvent(ev.id),
+              className: 'w-4 h-4 rounded accent-red-600'
+            }),
+            h('div', { className: 'flex-1 min-w-0' },
+              h('div', { className: 'text-sm font-semibold truncate' }, ev.eventName),
+              h('div', { className: 'text-xs text-text-muted' }, `${formatDateShort(ev.date)} • ${ev.venue}`)
+            ),
+            ev.status === 'completed' && h('span', { className: 'text-[10px] font-bold text-green bg-green-bg px-2 py-0.5 rounded' }, 'RESULT')
+          )
+        )
+      )
+    ),
+
+    // Options
+    h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+      h('h3', { className: 'font-display text-lg tracking-wide mb-3' }, 'OPTIONS'),
+      h('div', { className: 'space-y-3' },
+        h('label', { className: 'flex items-center gap-3 text-sm cursor-pointer' },
+          h('input', { type: 'checkbox', checked: includeUndercard, onChange: () => setIncludeUndercard(!includeUndercard), className: 'w-4 h-4 rounded accent-red-600' }),
+          'Include undercard fights'
+        ),
+        h('label', { className: 'flex items-center gap-3 text-sm cursor-pointer' },
+          h('input', { type: 'checkbox', checked: includeTape, onChange: () => setIncludeTape(!includeTape), className: 'w-4 h-4 rounded accent-red-600' }),
+          'Include Tale of the Tape'
+        ),
+        h('div', { className: 'flex items-center gap-3' },
+          h('span', { className: 'text-sm text-text-muted' }, 'Detail level:'),
+          h('select', {
+            value: reportMode,
+            onChange: (e) => setReportMode(e.target.value),
+            className: 'bg-surface-2 border border-border rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-red/50'
+          },
+            h('option', { value: 'summary' }, 'Summary'),
+            h('option', { value: 'detailed' }, 'Detailed')
+          )
+        )
+      )
+    ),
+
+    // Generate button
+    h('div', { className: 'flex gap-3' },
+      h('button', {
+        onClick: generateReport,
+        disabled: selectedEvents.length === 0,
+        className: 'flex items-center gap-2 px-6 py-2.5 bg-red text-white rounded-lg text-sm font-semibold hover:bg-red-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed'
+      }, h(Eye, { size: 16 }), 'Generate Preview'),
+      preview && h('button', {
+        onClick: downloadReport,
+        className: 'flex items-center gap-2 px-6 py-2.5 bg-surface border border-border rounded-lg text-sm font-semibold hover:bg-surface-2 transition-colors'
+      }, h(Download, { size: 16 }), 'Download .md')
+    ),
+
+    // Preview
+    preview && h('div', { className: 'bg-surface rounded-xl border border-border p-4' },
+      h('h3', { className: 'font-display text-lg tracking-wide mb-3' }, 'PREVIEW'),
+      h('pre', { className: 'text-xs text-text-muted whitespace-pre-wrap font-mono max-h-96 overflow-y-auto leading-relaxed' }, preview)
+    )
+  );
+}
+
+// ═══════════════════════════════════════════
+// APP
+// ═══════════════════════════════════════════
+
+function App() {
+  const [route, setRoute] = useState(window.location.hash.slice(2) || '');
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [reminders, setReminders] = useState([]);
+  const [predictions, setPredictions] = useState({});
+
+  useEffect(() => {
+    function onHashChange() {
+      setRoute(window.location.hash.slice(2) || '');
+      setSearchQuery('');
+    }
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+
+  function navigate(path) {
+    window.location.hash = '#/' + path;
+  }
+
+  const currentPage = route.split('/')[0] || '';
+
+  function renderPage() {
+    if (route.startsWith('event/')) {
+      return h(EventDetail, { eventId: route.split('/')[1], navigate, reminders, setReminders, predictions, setPredictions });
+    }
+    if (route.startsWith('fighter/')) {
+      return h(FighterProfile, { fighterId: route.split('/').slice(1).join('/'), navigate });
+    }
+    switch (currentPage) {
+      case 'rankings': return h(Rankings, { navigate });
+      case 'stats': return h(StatsPage, { navigate });
+      case 'calendar': return h(CalendarPage, { navigate });
+      case 'reminders': return h(Reminders, { reminders, setReminders, navigate });
+      case 'reports': return h(Reports, { navigate });
+      default: return h(Dashboard, { navigate, reminders, setReminders });
+    }
+  }
+
+  return h('div', { className: 'h-screen overflow-hidden' },
+    // Sidebar
+    h(Sidebar, { currentPage, navigate, mobileOpen, setMobileOpen }),
+    
+    // Main area
+    h('div', { className: 'h-full flex flex-col main-area' },
+      // Top bar with search
+      h('div', { className: 'relative' },
+        h(TopBar, { setMobileOpen, navigate, searchQuery, setSearchQuery }),
+        searchQuery.length >= 2 && h('div', { className: 'absolute top-full left-0 right-0 z-50 px-4 lg:px-6' },
+          h('div', { className: 'max-w-md' },
+            h(SearchResults, { query: searchQuery, navigate: (path) => { navigate(path); setSearchQuery(''); } })
+          )
+        )
+      ),
+      
+      // Main content
+      h('main', { className: 'flex-1 overflow-y-auto overscroll-contain' },
+        h('div', { className: 'max-w-5xl mx-auto px-4 lg:px-6 py-6 pb-24 lg:pb-6' },
+          renderPage()
+        )
+      )
+    ),
+    
+    // Mobile bottom nav
+    h(MobileNav, { currentPage, navigate })
+  );
+}
+
+// Mount
+const root = createRoot(document.getElementById('root'));
+root.render(h(App));
+</script>
+</body>
+</html>
