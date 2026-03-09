@@ -104,6 +104,56 @@ import { Search, Calendar, Trophy, BarChart3, Bell, FileText, ChevronLeft, Chevr
 
 const RECENT_RESULTS = [
   {
+    id: "opetaia-glanton-2026",
+    eventName: "Zuffa Boxing 04: Opetaia vs Glanton",
+    date: "2026-03-08",
+    venue: "Meta APEX",
+    city: "Las Vegas, Nevada",
+    country: "USA",
+    streaming: ["Paramount+"],
+    promoter: "Zuffa Boxing",
+    status: "completed",
+    fights: [
+      {
+        fighter1: { name: "Jai Opetaia", nickname: "The Dragon", record: "30-0", kos: 23, height: '6\'2"', reach: '76"', stance: "Southpaw", country: "Australia", age: 30 },
+        fighter2: { name: "Brandon Glanton", record: "21-4", kos: 18, height: '5\'10"', reach: '78"', stance: "Orthodox", country: "USA", age: 34 },
+        weightClass: "Cruiserweight", rounds: 12, isMainEvent: true, isTitleFight: true,
+        titles: ["Zuffa Boxing Cruiserweight Title", "The Ring Cruiserweight Title"],
+        result: { winner: "Jai Opetaia", method: "UD", round: 12, scores: "119-106, 119-106, 119-106", note: "Opetaia stripped of IBF title before fight; won inaugural Zuffa belt" }
+      },
+      {
+        fighter1: { name: "Ricardo Salas", record: "winner", country: "Mexico" },
+        fighter2: { name: "Jesus Saracho", record: "loss", country: "Mexico" },
+        weightClass: "Welterweight", rounds: 10,
+        result: { winner: "Ricardo Salas", method: "TKO", round: 8, time: "2:05" }
+      },
+      {
+        fighter1: { name: "Pablo Rubio Jr.", record: "15-0", kos: 5, country: "USA", age: 29 },
+        fighter2: { name: "Adan Palma", record: "14-1", kos: 9, country: "USA", age: 24 },
+        weightClass: "Featherweight", rounds: 8,
+        result: { winner: "Pablo Rubio Jr.", method: "UD", round: 8, scores: "77-73, 77-73, 76-74" }
+      },
+      {
+        fighter1: { name: "Vlad Panin", nickname: "Super Bad", record: "24-2", kos: 16, country: "Belarus/USA", age: 29 },
+        fighter2: { name: "Shinard Bunch", record: "22-4-1", kos: 18, country: "USA", age: 28 },
+        weightClass: "Welterweight", rounds: 10,
+        result: { winner: "Vlad Panin", method: "TKO", round: 9 }
+      },
+      {
+        fighter1: { name: "Joshua Juarez", record: "15-0", kos: 10, country: "USA" },
+        fighter2: { name: "Jardae Anderson", record: "11-2", kos: 9, country: "USA" },
+        weightClass: "Heavyweight", rounds: 8,
+        result: { winner: "Joshua Juarez", method: "UD", round: 8, scores: "79-73, 78-74, 77-75" }
+      },
+      {
+        fighter1: { name: "Emiliano Alvarado", record: "11-0", kos: 7, country: "USA", age: 18 },
+        fighter2: { name: "Erick Rosado", record: "16-5", kos: 11, country: "Dominican Republic" },
+        weightClass: "Featherweight", rounds: 6,
+        result: { winner: "Emiliano Alvarado", method: "UD", round: 6, scores: "59-54, 59-54, 59-54" }
+      }
+    ]
+  },
+  {
     id: "pierce-parra-2026",
     eventName: "Pierce vs Parra II",
     date: "2026-02-28",
@@ -165,52 +215,6 @@ const RECENT_RESULTS = [
 ];
 
 const UPCOMING_EVENTS = [
-  {
-    id: "opetaia-glanton-2026",
-    eventName: "Zuffa Boxing 04: Opetaia vs Glanton",
-    date: "2026-03-08",
-    time: "9:00 PM ET / 6:00 PM PT",
-    mainCardTime: "9:00 PM ET / 6:00 PM PT",
-    venue: "Meta APEX",
-    city: "Las Vegas, Nevada",
-    country: "USA",
-    streaming: ["Paramount+"],
-    promoter: "Zuffa Boxing",
-    fights: [
-      {
-        fighter1: { name: "Jai Opetaia", nickname: "The Dragon", record: "29-0", kos: 23, height: '6\'2"', reach: '76"', stance: "Southpaw", country: "Australia", age: 30 },
-        fighter2: { name: "Brandon Glanton", record: "21-3", kos: 18, height: '5\'10"', reach: '78"', stance: "Orthodox", country: "USA", age: 34 },
-        weightClass: "Cruiserweight", rounds: 12, isMainEvent: true, isTitleFight: true,
-        titles: ["IBF Cruiserweight Title", "The Ring Cruiserweight Title", "Zuffa Boxing Cruiserweight Title"],
-        estimatedRingWalk: "10:30 PM ET / 7:30 PM PT"
-      },
-      {
-        fighter1: { name: "Vlad Panin", nickname: "Super Bad", record: "23-2", kos: 15, height: '6\'0"', reach: '75"', stance: "Orthodox", country: "Belarus/USA", age: 29 },
-        fighter2: { name: "Shinard Bunch", record: "22-3-1", kos: 18, stance: "Orthodox", country: "USA", age: 28 },
-        weightClass: "Welterweight", rounds: 10, isCoMainEvent: true
-      },
-      {
-        fighter1: { name: "Adan Palma", record: "14-0", kos: 9, country: "USA", age: 24 },
-        fighter2: { name: "Pablo Rubio Jr.", record: "14-0", kos: 5, country: "USA", age: 29 },
-        weightClass: "Featherweight", rounds: 8
-      },
-      {
-        fighter1: { name: "Joshua Juarez", record: "14-0", kos: 9, country: "USA" },
-        fighter2: { name: "Jardae Anderson", record: "11-1", kos: 9, country: "USA" },
-        weightClass: "Heavyweight", rounds: 8
-      },
-      {
-        fighter1: { name: "Emiliano Alvarado", record: "10-0", kos: 6, country: "USA", age: 18 },
-        fighter2: { name: "Erick Rosado", record: "16-4", kos: 11, country: "Dominican Republic" },
-        weightClass: "Featherweight", rounds: 6
-      },
-      {
-        fighter1: { name: "Brady Ochoa", record: "9-0", kos: 2, country: "USA" },
-        fighter2: { name: "Adrian Serrano", record: "6-0-1", kos: 3, country: "USA" },
-        weightClass: "Lightweight", rounds: 6
-      }
-    ]
-  },
   {
     id: "dickens-cacace-2026",
     eventName: "Dickens vs Cacace: St Patrick's Day Spectacular",
@@ -412,6 +416,107 @@ const UPCOMING_EVENTS = [
         titles: ["WBC Heavyweight Title"]
       }
     ]
+  },
+  {
+    id: "fury-makhmudov-2026",
+    eventName: "The Ring: Fury vs Makhmudov",
+    date: "2026-04-11",
+    time: "2:00 PM ET / 11:00 AM PT",
+    mainCardTime: "2:00 PM ET / 11:00 AM PT",
+    venue: "Tottenham Hotspur Stadium",
+    city: "London",
+    country: "UK",
+    streaming: ["Netflix"],
+    promoter: "The Ring Magazine",
+    fights: [
+      {
+        fighter1: { name: "Tyson Fury", nickname: "The Gypsy King", record: "34-2-1", kos: 24, height: '6\'9"', reach: '85"', stance: "Orthodox", country: "England", age: 37 },
+        fighter2: { name: "Arslanbek Makhmudov", record: "19-2", kos: 19, height: '6\'5"', reach: '80"', stance: "Orthodox", country: "Russia", age: 35 },
+        weightClass: "Heavyweight", rounds: 12, isMainEvent: true
+      },
+      {
+        fighter1: { name: "Conor Benn", record: "24-1", kos: 16, country: "England", age: 29 },
+        fighter2: { name: "Regis Prograis", record: "30-3", kos: 25, country: "USA", age: 35 },
+        weightClass: "Welterweight", rounds: 12, isCoMainEvent: true
+      },
+      {
+        fighter1: { name: "Jeamie TKV Tshikeva", record: "9-2", country: "England" },
+        fighter2: { name: "Richard Riakporhe", record: "19-1", kos: 14, country: "England" },
+        weightClass: "Heavyweight", rounds: 12, isTitleFight: true,
+        titles: ["British Heavyweight Title"]
+      },
+      {
+        fighter1: { name: "Frazer Clarke", record: "9-2-1", country: "England" },
+        fighter2: { name: "Justis Huni", record: "12-1", country: "Australia" },
+        weightClass: "Heavyweight", rounds: 10
+      }
+    ]
+  },
+  {
+    id: "smith-morrell-2026",
+    eventName: "Smith vs Morrell",
+    date: "2026-04-18",
+    time: "3:00 PM ET / 12:00 PM PT",
+    mainCardTime: "3:00 PM ET / 12:00 PM PT",
+    venue: "M&S Bank Arena",
+    city: "Liverpool",
+    country: "UK",
+    streaming: ["DAZN"],
+    promoter: "Matchroom Boxing",
+    fights: [
+      {
+        fighter1: { name: "Callum Smith", record: "31-2", kos: 22, height: '6\'3"', reach: '78"', stance: "Orthodox", country: "England", age: 35 },
+        fighter2: { name: "David Morrell", record: "12-1", kos: 9, stance: "Southpaw", country: "Cuba", age: 27 },
+        weightClass: "Light Heavyweight", rounds: 12, isMainEvent: true, isTitleFight: true,
+        titles: ["WBO Interim Light Heavyweight Title"]
+      }
+    ]
+  },
+  {
+    id: "inoue-nakatani-2026",
+    eventName: "Inoue vs Nakatani",
+    date: "2026-05-02",
+    time: "5:00 AM ET / 2:00 AM PT",
+    mainCardTime: "5:00 AM ET / 2:00 AM PT",
+    venue: "Tokyo Dome",
+    city: "Tokyo",
+    country: "Japan",
+    streaming: ["DAZN"],
+    promoter: "Ohashi Promotions",
+    fights: [
+      {
+        fighter1: { name: "Naoya Inoue", nickname: "The Monster", record: "32-0", kos: 27, height: '5\'5"', reach: '67"', stance: "Orthodox", country: "Japan", age: 33 },
+        fighter2: { name: "Junto Nakatani", record: "32-0", kos: 24, height: '5\'5"', reach: '66"', stance: "Southpaw", country: "Japan", age: 27 },
+        weightClass: "Super Bantamweight", rounds: 12, isMainEvent: true, isTitleFight: true,
+        titles: ["Undisputed Super Bantamweight Title"]
+      },
+      {
+        fighter1: { name: "Takuma Inoue", record: "tbd", country: "Japan" },
+        fighter2: { name: "Kazuto Ioka", record: "veteran champion", country: "Japan" },
+        weightClass: "Bantamweight", rounds: 12, isCoMainEvent: true, isTitleFight: true,
+        titles: ["WBC Bantamweight Title"]
+      }
+    ]
+  },
+  {
+    id: "wardley-dubois-2026",
+    eventName: "Wardley vs Dubois",
+    date: "2026-05-09",
+    time: "2:00 PM ET / 11:00 AM PT",
+    mainCardTime: "2:00 PM ET / 11:00 AM PT",
+    venue: "Co-op Live Arena",
+    city: "Manchester",
+    country: "UK",
+    streaming: ["DAZN"],
+    promoter: "Matchroom Boxing",
+    fights: [
+      {
+        fighter1: { name: "Fabio Wardley", record: "20-0-1", kos: 18, stance: "Orthodox", country: "England", age: 31 },
+        fighter2: { name: "Daniel Dubois", record: "22-4", kos: 20, height: '6\'5"', reach: '78"', stance: "Orthodox", country: "England", age: 28 },
+        weightClass: "Heavyweight", rounds: 12, isMainEvent: true, isTitleFight: true,
+        titles: ["WBO Heavyweight Title"]
+      }
+    ]
   }
 ];
 
@@ -453,7 +558,7 @@ P4P_RANKINGS.forEach(r => {
 // UTILITY FUNCTIONS
 // ═══════════════════════════════════════════
 
-const TODAY = new Date(2026, 2, 7); // March 7, 2026
+const TODAY = new Date(2026, 2, 9); // March 9, 2026
 
 function formatDate(dateStr) {
   const d = new Date(dateStr + 'T12:00:00');
@@ -512,7 +617,8 @@ function countryFlag(country) {
     'northern ireland': '🇬🇧', 'ireland': '🇮🇪', 'mexico': '🇲🇽', 'ukraine': '🇺🇦',
     'japan': '🇯🇵', 'cuba': '🇨🇺', 'venezuela': '🇻🇪', 'netherlands': '🇳🇱',
     'belarus/usa': '🇧🇾', 'usa/mexico': '🇺🇸', 'scotland': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-    'dominican republic': '🇩🇴', 'poland': '🇵🇱', 'czech republic': '🇨🇿', 'egypt': '🇪🇬'
+    'dominican republic': '🇩🇴', 'poland': '🇵🇱', 'czech republic': '🇨🇿', 'egypt': '🇪🇬',
+    'russia': '🇷🇺', 'france': '🇫🇷'
   };
   if (!country) return '';
   return flags[country.toLowerCase()] || '🌍';
